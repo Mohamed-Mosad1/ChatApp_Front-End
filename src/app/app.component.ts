@@ -1,30 +1,33 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/assets/environments/environment';
+import { AuthService } from './services/auth.service';
+import { IUser } from './models/auth';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'client';
 
-  baseUrl: string = 'https://localhost:44364/api/';
+  baseUrl: string = environment.baseUrl;
 
-  constructor(private _httpClient: HttpClient) {
-    this.getMessage();
-   }
+  constructor(private _authService:AuthService) {}
 
-  getMessage(){
-    return this._httpClient.get(this.baseUrl + 'Messages').subscribe({
-      next: (data) => {
-        console.log(data);
-      },
-      error: (err) => {
-        console.log(err)
-      }
-    });
+  ngOnInit(): void {
+    this.setCurrentUser();
   }
 
+
+
+  setCurrentUser() {
+    const lsUser = localStorage.getItem('user');
+    if (lsUser) {
+      const user:IUser = JSON.parse(lsUser);
+      this._authService.setCurrentUser(user);
+    }
+  }
 
 }
