@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,19 +15,36 @@ import { ListsComponent } from './components/lists/lists.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ToastrModule } from 'ngx-toastr';
+import { MemberCardComponent } from './components/members/member-card/member-card.component';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { SharedModule } from './modules/shared.module';
 
 @NgModule({
-  declarations: [AppComponent, NavBarComponent, HomeComponent, RegisterComponent, MemberListComponent, MemberDetailsComponent, ListsComponent, MessagesComponent, NotFoundComponent],
+  declarations: [
+    AppComponent,
+    NavBarComponent,
+    HomeComponent,
+    RegisterComponent,
+    MemberListComponent,
+    MemberDetailsComponent,
+    ListsComponent,
+    MessagesComponent,
+    NotFoundComponent,
+    MemberCardComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
     FormsModule,
-    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' })
+    ReactiveFormsModule,
+    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
+    SharedModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -6,14 +6,14 @@ import { MemberDetailsComponent } from './components/members/member-details/memb
 import { MessagesComponent } from './components/messages/messages.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ListsComponent } from './components/lists/lists.component';
-import { authGuard } from './guards/auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent},
   { path: '', runGuardsAndResolvers: 'always', canActivate: [authGuard],children: [
-      { path: 'member', component: MemberListComponent },
-      { path: 'member/:id', component: MemberDetailsComponent },
+      { path: 'members', component: MemberListComponent },
+      { path: 'member/:userName', component: MemberDetailsComponent },
       { path: 'lists', component: ListsComponent },
       { path: 'message', component: MessagesComponent },
     ]

@@ -2,14 +2,14 @@
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <a routerLink="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-        <img src="../../assets/chat-app-logo-design-template-can-be-used-icon-chat-application-logo_605910-1724.avif"
+        <img src="./assets/chat-app-logo.avif"
           class="bi me-2" width="40" height="32" alt="Chat App Logo">
       </a>
 
       <ul *ngIf="(_authService.currentUser$ | async)"
         class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <ng-container>
-          <li><a routerLink="/member" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Members</a>
+          <li><a routerLink="/members" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Members</a>
           </li>
           <li><a routerLink="/lists" routerLinkActive="text-white" class="nav-link px-2 text-secondary">List</a></li>
           <li><a routerLink="/message" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Images</a>

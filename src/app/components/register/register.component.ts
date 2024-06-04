@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IUser } from 'src/app/models/auth';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -17,8 +17,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     public _authService: AuthService,
     private _formBuilder: FormBuilder,
-    private _router:Router,
-    private _toastrService:ToastrService
+    private _router: Router,
+    private _toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this._authService.register(this.registerForm.value).subscribe({
-      next: (res:IUser) => {
+      next: (res: IUser) => {
         console.log(res);
         this._toastrService.success('Registered successfully');
         this.cancel();
@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
           this._toastrService.error('An unexpected error occurred');
         }
         console.log(err?.error[0]);
-      }
+      },
     });
   }
 
