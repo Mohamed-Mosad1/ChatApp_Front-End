@@ -32,8 +32,8 @@ export class NavBarComponent implements OnInit {
     this._authService.login(this.loginForm.value).subscribe({
       next: (res: IUser) => {
         this.loggedIn = true;
-        this._router.navigate(['/member']);
-        console.log(res);
+        this._router.navigate(['/members']);
+        // console.log(res);
         this._toastrService.success('Logged in successfully');
       },
       error: (err) => {

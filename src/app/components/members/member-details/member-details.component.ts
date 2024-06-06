@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  NgxGalleryOptions,
-  NgxGalleryImage,
-  NgxGalleryAnimation,
-} from '@kolkov/ngx-gallery';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 import { MembersService } from 'src/app/core/services/members.service';
 import { Member } from 'src/app/models/member';
 
@@ -51,18 +47,18 @@ export class MemberDetailsComponent implements OnInit {
 
   loadMembers() {
     this._membersService
-      .getMemberByUserName(
-        this._activatedRoute.snapshot.paramMap.get('userName') ?? ''
-      )
+      .getMemberByUserName(this._activatedRoute.snapshot.paramMap.get('userName') ?? '')
       .subscribe({
         next: (res) => {
           if (res) {
             console.log(res);
             this.member = res;
-
             this.galleryImages = this.getImages();
           }
         },
+        error: (err) => {
+          console.log(err);
+        }
       });
   }
 }

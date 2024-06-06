@@ -19,8 +19,8 @@ export class MemberListComponent implements OnInit {
   getMembers() {
     this._membersService.getMembers().subscribe({
       next: (res) => {
-        // this.members = res;
-        console.log(res);
+        this.members = res;
+        // console.log(res);
       },
       error: (err) => {
         console.log(err);

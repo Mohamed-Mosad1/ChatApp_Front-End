@@ -18,6 +18,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { MemberCardComponent } from './components/members/member-card/member-card.component';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { SharedModule } from './modules/shared.module';
+import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { SharedModule } from './modules/shared.module';
     MessagesComponent,
     NotFoundComponent,
     MemberCardComponent,
+    MemberEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ import { SharedModule } from './modules/shared.module';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })

@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/assets/environments/environment';
-import { Member } from '../../models/member';
+import { IUpdateMember, Member } from '../../models/member';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,8 @@ export class MembersService {
     return this._httpClient.get<Member>(this.baseUrl + 'Accounts/get-user-by-userName/' + userName);
   }
 
-
+  updateMember(model: IUpdateMember) {
+    return this._httpClient.put(this.baseUrl + 'Accounts/update-current-member', model);
+  }
 
 }

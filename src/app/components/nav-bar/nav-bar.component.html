@@ -2,8 +2,7 @@
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <a routerLink="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-        <img src="./assets/chat-app-logo.avif"
-          class="bi me-2" width="40" height="32" alt="Chat App Logo">
+        <img src="./assets/chat-app-logo.avif" class="bi me-2" width="40" height="32" alt="Chat App Logo">
       </a>
 
       <ul *ngIf="(_authService.currentUser$ | async)"
@@ -12,7 +11,7 @@
           <li><a routerLink="/members" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Members</a>
           </li>
           <li><a routerLink="/lists" routerLinkActive="text-white" class="nav-link px-2 text-secondary">List</a></li>
-          <li><a routerLink="/message" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Images</a>
+          <li><a routerLink="/message" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Message</a>
           </li>
         </ng-container>
       </ul>
@@ -23,8 +22,10 @@
         </button>
 
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Edit Profile</a></li>
-          <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Logout</a></li>
+          <li><a class="dropdown-item" routerLink="/members/edit" style="cursor: pointer;">
+            <i class="fas fa-pen me-3"></i>Edit Profile</a></li>
+          <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">
+            <i class="fas fa-arrow-left me-3"></i>Logout</a></li>
         </ul>
       </div>
 

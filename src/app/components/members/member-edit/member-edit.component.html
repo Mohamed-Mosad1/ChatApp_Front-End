@@ -1,0 +1,84 @@
+<div class="row" *ngIf="member">
+  <div class="col-md-4">
+    <h2>Your Profile Info</h2>
+  </div>
+  <div class="col-md-8">
+    <div class="alert alert-warning text-center"*ngIf="!editMemberForm.pristine">
+    <strong>Information</strong> will be lost if you leave this page.
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <img class="card-img-top img-thumbnail" [src]="member.photoUrl || './assets/default-user-img.png'"
+        [alt]="member.userName" />
+      <div class="card-body">
+        <div>
+          <strong>Location:</strong>
+          <p>{{member.city}}, {{member.country}}</p>
+        </div>
+        <div>
+          <strong>Age:</strong>
+          <p>{{member.age}}</p>
+        </div>
+        <div>
+          <strong>Member Last Active:</strong>
+          <p>{{member.lastActive}}</p>
+        </div>
+        <div>
+          <strong>Member Since:</strong>
+          <p>{{member.created}}</p>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group d-flex">
+            <button [disabled]="!editMemberForm.dirty" form="editForm" type="submit" class="btn btn-success btn-block">
+              <i class="fas fa-check mx-2"></i>
+              Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <tabset class="member-tabset">
+      <tab heading="About {{member.userName}}" id="tab1">
+      <form id="editForm" [formGroup]="editMemberForm" (ngSubmit)="updateMember()">
+        <h3>Description</h3>
+        <div class="mb-3">
+          <textarea class="form-control" formControlName="introduction" rows="5">{{member.introduction}}</textarea>
+        </div>
+        <h3>Looking For</h3>
+        <div class="mb-3">
+          <textarea class="form-control" formControlName="lookingFor" rows="5">{{member.lookingFor}}</textarea>
+        </div>
+        <h3>Interests</h3>
+        <div class="mb-3">
+          <textarea formControlName="interests" class="form-control" rows="5">{{member.interests}}</textarea>
+        </div>
+        <h3>Location Details</h3>
+        <div class="row align-items-center">
+          <div class="col-auto mb-3">
+            <label for="cityInput" class="form-label">City</label>
+            <input type="text" class="form-control" [value]="member.city" id="cityInput"
+              formControlName="city" placeholder="Enter your city"/>
+          </div>
+          <div class="col-auto mb-3">
+            <label for="countryInput" class="form-label">Country</label>
+            <input type="text" class="form-control" [value]="member.country" id="countryInput"
+              formControlName="country" placeholder="Enter your country" />
+          </div>
+        </div>
+      </form>
+      </tab>
+      <tab heading="Edit Photos">
+        <p>edit photo</p>
+        <!-- <ngx-gallery
+        [options]="galleryOptions"
+        [images]="galleryImages"
+        class="ngx-gallery"></ngx-gallery> -->
+      </tab>
+      <!-- <tab heading="Messages">
+        <p>Messages here...</p>
+      </tab> -->
+    </tabset>
+  </div>
+</div>
