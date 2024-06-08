@@ -17,6 +17,12 @@
       </ul>
 
       <div class="dropdown" *ngIf="(_authService.currentUser$ | async) as user">
+        <img
+          [src]="user.photoUrl"
+          class="img-fluid rounded-top img-profile"
+          [alt]="user.userName"
+        />
+
         <button class="btn text-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           Welcome, {{user.userName | titlecase}}
         </button>

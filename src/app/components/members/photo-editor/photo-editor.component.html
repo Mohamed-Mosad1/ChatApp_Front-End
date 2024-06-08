@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-sm-3" *ngFor="let photo of member.photos">
+    <img [src]="photo.url" [alt]="photo.url" class="img-fluid rounded-top img-thumbnail p-1">
+    <div class="d-flex justify-content-evenly align-items-center">
+      <button (click)="setMainMemberPhoto(photo)" type="button"
+        [disabled]="photo.isMain" class="btn btn-sm"
+        [ngClass]="photo.isMain ? 'btn btn-success active' : 'btn btn-outline-success'">
+        <i class="fas fa fa-thumbtack my-1"></i>
+      </button>
+      <button (click)="deleteMemberPhoto(photo.id)" type="button" class="btn btn-danger btn-sm">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <form (ngSubmit)="uploadPhoto()">
+      <div class="row justify-content-between">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="fileId" class="form-label">Upload Photo</label>
+            <input #photoMember id="fileId" type="file" class="form-control" (change)="onFileChange($event)" />
+          </div>
+          <button [disabled]="!currentUserImage" type="submit" class="btn btn-success btn-block">
+            <i class="fas fa-file-upload"></i>
+            Upload</button>
+        </div>
+        <div class="col-md-6">
+          <ng-container *ngIf="currentUserImage">
+            <img [src]="currentUserImage" class="img-fluid rounded-top img-thumbnail">
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

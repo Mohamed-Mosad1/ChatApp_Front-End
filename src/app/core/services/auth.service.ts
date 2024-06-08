@@ -16,43 +16,33 @@ export class AuthService {
 
   login(model: ILogin) {
     return this._httpClient
-      .post<IUser>(this.baseUrl + 'Accounts/Login', model)
+      .post<IUser>(`${this.baseUrl}Accounts/Login`, model)
       .pipe(
-        map((user: IUser) => {
+        map((user) => {
           if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-            this.currentUserSource.next(user);
+            this.setCurrentUser(user);
           }
-          return user;
         }),
-        catchError((error) => {
-          console.error('Login failed', error);
-          return throwError(() => new Error('Login failed, please try again.'));
-        })
+        catchError((error) => this.handleError('Login failed', error))
       );
   }
 
+
   register(model: IUser) {
     return this._httpClient
-      .post<IUser>(this.baseUrl + 'Accounts/Register', model)
+      .post<IUser>(`${this.baseUrl}Accounts/Register`, model)
       .pipe(
-        map((user: IUser) => {
+        map((user) => {
           if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-            this.currentUserSource.next(user);
+            this.setCurrentUser(user);
           }
-          return user;
         }),
-        catchError((error) => {
-          console.error('Registration failed', error);
-          return throwError(
-            () => new Error('Registration failed, please try again.')
-          );
-        })
+        catchError((error) => this.handleError('Registration failed', error))
       );
   }
 
   setCurrentUser(user: IUser) {
+    localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
 
@@ -60,4 +50,10 @@ export class AuthService {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
   }
+
+  private handleError(message: string, error: any) {
+    console.error(message, error);
+    return throwError(() => new Error(`${message}, please try again.`));
+  }
+
 }

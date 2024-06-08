@@ -7,4 +7,5 @@ export interface IUser {
   userName: string;
   email : string;
   token: string;
+  photoUrl: string;
 }
