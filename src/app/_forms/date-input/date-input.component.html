@@ -1,0 +1,17 @@
+<div class="mb-3">
+  <label [for]="id" class="form-label">{{ label }}</label>
+  <input
+    class="form-control"
+    [formControl]="ngControl.control"
+    [id]="id"
+    [name]="id"
+    [placeholder]="label"
+    [type]="'text'"
+    [class.is-invalid]="ngControl.invalid && ngControl.touched"
+    [class.is-valid]="ngControl.valid && ngControl.touched"
+    bsDatepicker
+    [bsConfig]="bsConfig"
+    [maxDate]="maxDate"
+    style="cursor: pointer;"
+  />
+</div>

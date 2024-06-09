@@ -1,5 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -12,6 +18,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter<boolean>();
   registerForm!: FormGroup;
+  maxDate: Date = new Date();
 
   constructor(
     private _authService: AuthService,
@@ -22,14 +29,28 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }
 
   private initializeForm() {
     this.registerForm = this._formBuilder.group({
-      userName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      userName: ['', [Validators.required, Validators.minLength(3)]],
+      gender: ['male'],
+      knownAs: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      dateOfBirth: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
+      password: ['', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$')]],
+      confirmPassword: ['', [Validators.required, this.matchValues('password')]],
     });
+  }
+
+  matchValues(matchTo: string): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const matchingControl = control?.parent?.get(matchTo);
+      return control?.value === matchingControl?.value ? null : { isMatching: true };
+    };
   }
 
   register() {
@@ -40,7 +61,6 @@ export class RegisterComponent implements OnInit {
 
     this._authService.register(this.registerForm.value).subscribe({
       next: (user) => {
-        console.log(user);
         this._toastrService.success('Registered successfully');
         this.cancel();
         this._router.navigate(['/member']);

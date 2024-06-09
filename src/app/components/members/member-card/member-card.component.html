@@ -1,6 +1,6 @@
 <div class="card" *ngIf="member">
   <div class="card-image-wrapper">
-    <img class="card-img-top" [src]="member.photoUrl" [alt]="member.userName" />
+    <img class="card-img-top" [src]="member.photoUrl == baseServerUrl ? './assets/default-user-img.png' : member.photoUrl" [alt]="member.userName" />
     <ul class="list-inline text-center animate member-icons">
       <li class="list-inline-item">
         <button [routerLink]="['/member/', member.userName]" type="button" class="btn btn-warning">

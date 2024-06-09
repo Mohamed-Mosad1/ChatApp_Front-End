@@ -2,30 +2,38 @@
   <h2 class="text-center text-primary">Sign up</h2>
   <hr>
   <form [formGroup]="registerForm" (ngSubmit)="register()" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-    <div class="mb-3">
-      <!-- <label for="" class="form-label">User Name</label> -->
-      <input formControlName="userName" type="text" class="form-control" name="userName" id="userName"
-        aria-describedby="helpId" placeholder="Enter User Name" />
-      <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
-    </div>
 
-    <div class="mb-3">
-      <!-- <label for="" class="form-label">User Name</label> -->
-      <input formControlName="email" type="email" class="form-control" name="email" id="email"
-        aria-describedby="helpId" placeholder="Enter Email" />
-      <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
-    </div>
+<div class="mb-3">
+  <div class="form-check form-check-inline me-5">
+    <label class="form-check-label" for="">I am a: </label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input formControlName="gender" class="form-check-input" type="radio" id="male" value="male" />
+    <label class="form-check-label" for="male">Male</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input formControlName="gender" class="form-check-input" type="radio"id="female" value="female" />
+    <label class="form-check-label" for="female">Female</label>
+  </div>
+</div>
 
-    <div class="mb-3">
-      <!-- <label for="" class="form-label">Password</label> -->
-      <input formControlName="password" type="password" class="form-control" name="password" id="password"
-        aria-describedby="helpId" placeholder="Enter password" />
-      <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
-    </div>
+
+    <app-text-input id="userName" type="text" label="User Name" [formControl]="registerForm.controls['userName']"></app-text-input>
+    <app-text-input id="knownAs" type="text" label="KnownAs" [formControl]="registerForm.controls['knownAs']"></app-text-input>
+    <app-date-input id="dateOfBirth" [maxDate]="maxDate" label="Date Of Birth" [formControl]="registerForm.controls['dateOfBirth']"></app-date-input>
+    <app-text-input id="city" type="text" label="City" [formControl]="registerForm.controls['city']"></app-text-input>
+    <app-text-input id="country" type="text" label="Country" [formControl]="registerForm.controls['country']"></app-text-input>
+    <app-text-input id="email" type="email" label="Email" [formControl]="registerForm.controls['email']"></app-text-input>
+    <app-text-input id="password" type="password" label="Password" [formControl]="registerForm.controls['password']"></app-text-input>
+    <app-text-input id="confirmPassword" type="password" label="Confirm Password" [formControl]="registerForm.controls['confirmPassword']"></app-text-input>
 
     <div class="form-group text-center">
-      <button type="submit" [disabled]="registerForm.invalid" class="btn btn-success me-2">Register</button>
-      <button type="button" class="btn btn-warning" (click)="cancel()">Cancel</button>
+      <button type="submit" [disabled]="registerForm.invalid" class="btn btn-success me-2">
+        <i class="fas fa-right-to-bracket mx-1"></i>
+        Register</button>
+      <button type="button" class="btn btn-warning" (click)="cancel()">
+        <i class="fas fa-right-left mx-1"></i>
+        Cancel</button>
     </div>
   </form>
 </div>

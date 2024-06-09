@@ -8,8 +8,7 @@
       <ul *ngIf="(_authService.currentUser$ | async)"
         class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <ng-container>
-          <li><a routerLink="/members" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Members</a>
-          </li>
+          <li><a routerLink="/members" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Members</a></li>
           <li><a routerLink="/lists" routerLinkActive="text-white" class="nav-link px-2 text-secondary">List</a></li>
           <li><a routerLink="/message" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Message</a>
           </li>
@@ -17,9 +16,8 @@
       </ul>
 
       <div class="dropdown" *ngIf="(_authService.currentUser$ | async) as user">
-        <img
-          [src]="user.photoUrl"
-          class="img-fluid rounded-top img-profile"
+        <img [src]="user.photoUrl || './assets/default-user-img.png'"
+        class="img-fluid rounded-top img-profile"
           [alt]="user.userName"
         />
 
@@ -49,7 +47,6 @@
           <div class="col-md-2">
             <div class="text-end">
               <button [disabled]="!loginForm.valid" type="submit" class="btn btn-outline-light me-2">Login</button>
-              <!-- <button type="button" class="btn btn-warning">Sign-up</button> -->
             </div>
           </div>
         </div>
