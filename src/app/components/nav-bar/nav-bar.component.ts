@@ -3,6 +3,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/assets/environments/environment';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class NavBarComponent implements OnInit {
   loginForm!: FormGroup;
   loggedIn = false;
+  baseServerUrl: string = environment.baseServerUrl;
 
   constructor(
     public _authService: AuthService,
@@ -22,7 +24,7 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeLoginForm();
-    this.loggedIn = !!this._authService.currentUser$; // Check if user is already logged in
+    this.loggedIn = !this._authService.currentUser$;
   }
 
   private initializeLoginForm() {

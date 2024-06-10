@@ -5,7 +5,8 @@ export interface ILogin {
 
 export interface IUser {
   userName: string;
-  email : string;
+  email: string;
+  gender: string;
   token: string;
   photoUrl: string;
 }

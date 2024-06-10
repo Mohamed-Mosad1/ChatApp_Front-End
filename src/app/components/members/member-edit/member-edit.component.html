@@ -9,7 +9,7 @@
   </div>
   <div class="col-md-4">
     <div class="card">
-      <img class="card-img-top img-thumbnail" [src]="member.photoUrl == baseServerUrl ? './assets/default-user-img.png' : member.photoUrl"
+      <img class="card-img-top img-thumbnail" [src]="member.photoUrl == baseServerUrl || !member.photoUrl ? './assets/default-user-img.png' : member.photoUrl"
         [alt]="member.userName" />
       <div class="card-body">
         <div>
@@ -70,7 +70,6 @@
       </form>
       </tab>
       <tab heading="Edit Photos">
-        <p>edit photo</p>
         <app-photo-editor [member]="member"></app-photo-editor>
         <!-- <ngx-gallery
         [options]="galleryOptions"

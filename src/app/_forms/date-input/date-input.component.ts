@@ -1,5 +1,5 @@
 import { Component, Input, Self } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
@@ -11,7 +11,6 @@ export class DateInputComponent implements ControlValueAccessor {
 
   @Input() label :string = '';
   @Input() maxDate : Date = new Date();
-  @Input() id : string = '';
 
   bsConfig:Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 

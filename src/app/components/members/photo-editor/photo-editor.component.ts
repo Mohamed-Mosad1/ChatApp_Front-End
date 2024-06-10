@@ -46,19 +46,17 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   uploadPhoto(): void {
-    if (!this.selectedFile) {
-      this._toastrService.warning('Please select a file first');
-      return;
+    const formData = new FormData();
+
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile, this.selectedFile.name);
     }
 
-    const formData = new FormData();
-    formData.append('file', this.selectedFile, this.selectedFile.name);
-
     this._memberService.uploadMemberPhoto(formData).subscribe({
-      next: () => {
+      next: (res : any) => {
         this._toastrService.success('Photo uploaded successfully');
         this.reset();
-        this.getMember();
+        this.member.photos.push(res);
       },
       error: (err) => {
         this._toastrService.error('Error uploading photo');

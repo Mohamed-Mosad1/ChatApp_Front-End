@@ -5,7 +5,7 @@
 
 <div class="mb-3">
   <div class="form-check form-check-inline me-5">
-    <label class="form-check-label" for="">I am a: </label>
+    <h4 class="form-check-label fw-normal">I am a: </h4>
   </div>
   <div class="form-check form-check-inline">
     <input formControlName="gender" class="form-check-input" type="radio" id="male" value="male" />
@@ -17,18 +17,17 @@
   </div>
 </div>
 
-
-    <app-text-input id="userName" type="text" label="User Name" [formControl]="registerForm.controls['userName']"></app-text-input>
-    <app-text-input id="knownAs" type="text" label="KnownAs" [formControl]="registerForm.controls['knownAs']"></app-text-input>
-    <app-date-input id="dateOfBirth" [maxDate]="maxDate" label="Date Of Birth" [formControl]="registerForm.controls['dateOfBirth']"></app-date-input>
-    <app-text-input id="city" type="text" label="City" [formControl]="registerForm.controls['city']"></app-text-input>
-    <app-text-input id="country" type="text" label="Country" [formControl]="registerForm.controls['country']"></app-text-input>
-    <app-text-input id="email" type="email" label="Email" [formControl]="registerForm.controls['email']"></app-text-input>
-    <app-text-input id="password" type="password" label="Password" [formControl]="registerForm.controls['password']"></app-text-input>
-    <app-text-input id="confirmPassword" type="password" label="Confirm Password" [formControl]="registerForm.controls['confirmPassword']"></app-text-input>
+<app-text-input type="text" label="User Name" [formControl]="registerForm.controls['userName']"></app-text-input>
+<app-text-input type="text" label="KnownAs" [formControl]="registerForm.controls['knownAs']"></app-text-input>
+<app-date-input [maxDate]="maxDate" label="Date Of Birth" [formControl]="registerForm.controls['dateOfBirth']"></app-date-input>
+<app-text-input type="text" label="City" [formControl]="registerForm.controls['city']"></app-text-input>
+<app-text-input type="text" label="Country" [formControl]="registerForm.controls['country']"></app-text-input>
+<app-text-input type="email" label="Email" [formControl]="registerForm.controls['email']"></app-text-input>
+<app-text-input type="password" label="Password" [formControl]="registerForm.controls['password']"></app-text-input>
+<app-text-input type="password" label="Confirm Password" [formControl]="registerForm.controls['confirmPassword']"></app-text-input>
 
     <div class="form-group text-center">
-      <button type="submit" [disabled]="registerForm.invalid" class="btn btn-success me-2">
+      <button type="submit" *ngIf="registerForm.invalid" class="btn btn-success me-2">
         <i class="fas fa-right-to-bracket mx-1"></i>
         Register</button>
       <button type="button" class="btn btn-warning" (click)="cancel()">

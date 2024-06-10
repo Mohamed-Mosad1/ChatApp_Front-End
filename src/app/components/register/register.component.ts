@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter<boolean>();
-  registerForm!: FormGroup;
+  registerForm: FormGroup = new FormGroup({});
   maxDate: Date = new Date();
 
   constructor(
