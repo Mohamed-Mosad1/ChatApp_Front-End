@@ -79,7 +79,6 @@ export class MemberEditComponent implements OnInit {
         this.editMemberForm.reset(this.member);
         this.loadMember();
         this._toastrService.success('Member updated successfully');
-        console.log(res);
       },
       error: (err) => {
         this._toastrService.error(err.message);

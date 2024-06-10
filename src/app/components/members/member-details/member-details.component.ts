@@ -51,7 +51,6 @@ export class MemberDetailsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res) {
-            console.log(res);
             this.member = res;
             this.galleryImages = this.getImages();
           }
