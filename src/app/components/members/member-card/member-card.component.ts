@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { MembersService } from 'src/app/core/services/members.service';
 import { Member } from 'src/app/models/member';
 import { environment } from 'src/assets/environments/environment';
 
@@ -12,5 +14,17 @@ export class MemberCardComponent {
   @Input() member!: Member;
   baseServerUrl: string = environment.baseServerUrl;
 
+  constructor(private _membersService: MembersService, private _toasterService: ToastrService) { }
+
+  addLike(userName: string) {
+    this._membersService.addLike(userName).subscribe({
+      next: () => {
+        this._toasterService.success('You have liked ' + this.member.userName);
+      },
+      error: (err) => {
+        this._toasterService.error(err.error);
+      }
+    })
+  }
 
 }

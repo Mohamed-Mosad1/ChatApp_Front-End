@@ -17,7 +17,7 @@ export class PhotoEditorComponent implements OnInit {
   currentUserImage!: string | ArrayBuffer | undefined | null;
   user!: IUser | null;
 
-  @ViewChild('photoMember') memberProfilePhoto!: ElementRef;
+  @ViewChild('photoMember') memberProfilePhoto!: ElementRef<HTMLInputElement>;
 
   constructor(
     private _memberService: MembersService,
@@ -33,9 +33,8 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   private getMember(): void {
-    const user = this.user;
-    if (user) {
-      this._memberService.getMemberByUserName(user.userName).subscribe({
+    if (this.user) {
+      this._memberService.getMemberByUserName(this.user.userName).subscribe({
         next: member => this.member = member,
         error: err => {
           this._toastrService.error('Error fetching member details');
@@ -46,33 +45,43 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   uploadPhoto(): void {
-    const formData = new FormData();
-
-    if (this.selectedFile) {
-      formData.append('file', this.selectedFile, this.selectedFile.name);
+    if (!this.selectedFile) {
+      this._toastrService.warning('Please select a file to upload');
+      return;
     }
 
+    const formData = new FormData();
+    formData.append('file', this.selectedFile, this.selectedFile.name);
+
     this._memberService.uploadMemberPhoto(formData).subscribe({
-      next: (res : any) => {
+      next: (res: any) => {
         this._toastrService.success('Photo uploaded successfully');
         this.reset();
         this.member.photos.push(res);
       },
-      error: (err) => {
+      error: err => {
         this._toastrService.error('Error uploading photo');
         console.error('Error uploading photo:', err);
       }
     });
   }
 
-  onFileChange(event: Event): void {
+  onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const files = input.files;
 
-    if (files && files.length > 0) {
-      this.selectedFile = files[0];
+    if (input?.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+
       const reader = new FileReader();
-      reader.onload = e => this.currentUserImage = e.target?.result;
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        this.currentUserImage = e.target?.result;
+      };
+
+      reader.onerror = error => {
+        console.error('Error reading file:', error);
+        this.currentUserImage = null;
+      };
+
       reader.readAsDataURL(this.selectedFile);
     } else {
       this.currentUserImage = null;
@@ -80,7 +89,9 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   reset(): void {
-    this.memberProfilePhoto.nativeElement.value = '';
+    if (this.memberProfilePhoto) {
+      this.memberProfilePhoto.nativeElement.value = '';
+    }
     this.currentUserImage = null;
   }
 
@@ -90,7 +101,7 @@ export class PhotoEditorComponent implements OnInit {
         this._toastrService.success('Photo deleted successfully');
         this.getMember();
       },
-      error: (err) => {
+      error: err => {
         this._toastrService.error('Error deleting photo');
         console.error('Error deleting photo:', err);
       }
@@ -107,13 +118,13 @@ export class PhotoEditorComponent implements OnInit {
             this._authService.setCurrentUser(this.user);
           }
           this.member.photos.forEach(p => {
-            if(p.isMain) p.isMain = false;
-            if(p.id === photo.id) p.isMain = true;
-          })
+            if (p.isMain) p.isMain = false;
+            if (p.id === photo.id) p.isMain = true;
+          });
           this._toastrService.success('Main photo set successfully');
         }
       },
-      error: (err) => {
+      error: err => {
         this._toastrService.error('Error setting main photo');
         console.error('Error setting main photo:', err);
       }

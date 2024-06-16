@@ -27,7 +27,7 @@
 <app-text-input type="password" label="Confirm Password" [formControl]="registerForm.controls['confirmPassword']"></app-text-input>
 
     <div class="form-group text-center">
-      <button type="submit" *ngIf="registerForm.invalid" class="btn btn-success me-2">
+      <button type="submit" *ngIf="registerForm.valid" class="btn btn-success me-2">
         <i class="fas fa-right-to-bracket mx-1"></i>
         Register</button>
       <button type="button" class="btn btn-warning" (click)="cancel()">

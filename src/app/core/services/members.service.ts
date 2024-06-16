@@ -30,6 +30,17 @@ export class MembersService {
     })
   }
 
+  addLike(userName: string) {
+    return this._httpClient.post(`${this.baseUrl}Likes/add-like/${userName}`, {})
+  }
+
+  getLikes(predicate: string, pageNumber: number, pageSize: number) {
+    let params = this.getPaginationHeaders(pageNumber, pageSize);
+    params = params.append('predicate', predicate);
+    // return this._httpClient.get(`${this.baseUrl}Likes/get-liked-users`)
+    return this.getPaginatedResult<Partial<Member[]>>(`${this.baseUrl}Likes/get-liked-users`, params)
+  }
+
   getUserParams() {
     return this.userParams;
   }
@@ -97,7 +108,7 @@ export class MembersService {
     return this._httpClient.put(this.baseUrl + 'Accounts/update-current-member', model);
   }
 
-  uploadMemberPhoto(file: FormData) : Observable<Photo> {
+  uploadMemberPhoto(file: FormData) {
     return this._httpClient.post<Photo>(this.baseUrl + 'Accounts/upload-photo', file);
   }
 

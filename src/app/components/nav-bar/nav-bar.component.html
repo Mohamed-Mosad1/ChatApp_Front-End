@@ -7,29 +7,32 @@
 
       <ul *ngIf="(_authService.currentUser$ | async)"
         class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <ng-container>
-          <li><a routerLink="/members" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Members</a></li>
-          <li><a routerLink="/lists" routerLinkActive="text-white" class="nav-link px-2 text-secondary">List</a></li>
-          <li><a routerLink="/message" routerLinkActive="text-white" class="nav-link px-2 text-secondary">Message</a>
-          </li>
+        <ng-container *ngFor="let link of navLinks">
+          <li><a [routerLink]="link.path" routerLinkActive="text-white" class="nav-link px-2 text-secondary">{{
+              link.label }}</a></li>
         </ng-container>
       </ul>
 
-      <div class="dropdown" *ngIf="(_authService.currentUser$ | async) as user">
-        <img [src]="user.photoUrl === baseServerUrl || user.photoUrl === null ? './assets/default-user-img.png' : user.photoUrl"
-        class="img-fluid img-profile"
-          [alt]="user.userName"
-        />
+      <div *ngIf="(_authService.currentUser$ | async) as user" class="dropdown">
+        <img
+          [src]="user.photoUrl === baseServerUrl || user.photoUrl === null ? './assets/default-user-img.png' : user.photoUrl"
+          class="img-fluid img-profile" [alt]="user.userName" />
 
         <button class="btn text-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Welcome, {{user.userName | titlecase}}
+          Welcome, {{ user.userName | titlecase }}
         </button>
 
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" routerLink="/members/edit" style="cursor: pointer;">
-            <i class="fas fa-pen me-3"></i>Edit Profile</a></li>
-          <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">
-            <i class="fas fa-arrow-left me-3"></i>Logout</a></li>
+          <li>
+            <a class="dropdown-item" routerLink="/members/edit" style="cursor: pointer;">
+              <i class="fas fa-pen me-3"></i>Edit Profile
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" (click)="logout()" style="cursor: pointer;">
+              <i class="fas fa-arrow-left me-3"></i>Logout
+            </a>
+          </li>
         </ul>
       </div>
 

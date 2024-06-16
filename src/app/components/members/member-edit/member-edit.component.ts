@@ -56,7 +56,6 @@ export class MemberEditComponent implements OnInit {
     this._membersService.getMemberByUserName(this.user.userName).subscribe({
       next: (res) => {
         if (res) {
-          console.log(res);
           this.member = res;
           this.editMemberForm.setValue({
             introduction: this.member.introduction,
