@@ -42,13 +42,12 @@
         <p>{{member.interests}}</p>
       </tab>
       <tab heading="Photos">
-        <ngx-gallery
+        <ngx-gallery class="ngx-gallery"
         [options]="galleryOptions"
-        [images]="galleryImages"
-        class="ngx-gallery"></ngx-gallery>
+        [images]="galleryImages"></ngx-gallery>
       </tab>
       <tab heading="Messages">
-        <p>Messages here...</p>
+        <app-member-message [userName]="member.userName"></app-member-message>
       </tab>
     </tabset>
   </div>

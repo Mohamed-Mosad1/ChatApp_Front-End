@@ -1,10 +1,48 @@
-import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'src/app/core/services/message.service';
+import { Message } from 'src/app/models/messages';
+import { Pagination } from 'src/app/models/Pagination';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss']
 })
-export class MessagesComponent {
+export class MessagesComponent implements OnInit {
+
+  messages!:Message[] | null;
+  pagination!: Pagination;
+  container: string = 'UnRead';
+  pageNumber: number = 1;
+  pageSize: number = 8;
+  loading:boolean = false;
+
+  constructor(private _messageService: MessageService, _toastrService: ToastrService) { }
+
+
+  ngOnInit(): void {
+    this.loadMessages();
+  }
+
+  loadMessages() {
+    this._messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe({
+      next: (res) => {
+        if(res){
+          this.messages = res.result;
+          this.pagination = res.pagination;
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.loadMessages();
+  }
+
 
 }
