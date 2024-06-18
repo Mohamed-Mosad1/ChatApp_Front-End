@@ -22,4 +22,12 @@ export class MessageService {
   getMesageIsRead(userName: string) {
     return this._httpClient.get<Message[]>(this.baseUrl + 'Messages/mark-message-as-read/' + userName);
   }
+
+  sendMessage(recipientUsername: string, content: string) {
+    return this._httpClient.post<Message>(this.baseUrl + 'Messages/add-message', {recipientUsername, content});
+  }
+
+  deleteMessage(id: number) {
+    return this._httpClient.delete(this.baseUrl + 'Messages/delete-message/' + id);
+  }
 }

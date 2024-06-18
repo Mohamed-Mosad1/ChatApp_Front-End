@@ -18,7 +18,7 @@ export class MessagesComponent implements OnInit {
   pageSize: number = 8;
   loading:boolean = false;
 
-  constructor(private _messageService: MessageService, _toastrService: ToastrService) { }
+  constructor(private _messageService: MessageService, private _toastrService: ToastrService) { }
 
 
   ngOnInit(): void {
@@ -26,11 +26,13 @@ export class MessagesComponent implements OnInit {
   }
 
   loadMessages() {
+    this.loading = true;
     this._messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe({
       next: (res) => {
         if(res){
           this.messages = res.result;
           this.pagination = res.pagination;
+          this.loading = false;
         }
       },
       error: (err) => {
@@ -44,5 +46,17 @@ export class MessagesComponent implements OnInit {
     this.loadMessages();
   }
 
+  deleteMessage(id: number) {
+    this._messageService.deleteMessage(id).subscribe({
+      next: () => {
+        let index = this.messages?.findIndex(m => m.id === id)
+        if(index) this.messages?.splice(index, 1);
+        this._toastrService.success('Message deleted successfully');
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
 
 }

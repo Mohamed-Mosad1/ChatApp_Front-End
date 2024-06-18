@@ -1,34 +1,40 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { Message } from 'src/app/models/messages';
 
 @Component({
   selector: 'app-member-message',
   templateUrl: './member-message.component.html',
-  styleUrls: ['./member-message.component.scss']
+  styleUrls: ['./member-message.component.scss'],
 })
 export class MemberMessageComponent implements OnInit {
 
+  @ViewChild('messageForm') messageForm!: NgForm;
+  @Input() messages: Message[] = [];
   @Input() userName: string = '';
-  messages: Message[] = [];
+  messageContent: string = '';
 
-  constructor(private _messagesService: MessageService) { }
+  constructor(private _messageService: MessageService, private _toastrService: ToastrService) {}
 
-  ngOnInit(): void {
-    this.loadMessages();
+  ngOnInit(): void {}
+
+  sendMessage() {
+    if(this.messageForm.invalid) {
+      this._toastrService.warning('Please enter a message');
+      return;
+    }
+    this._messageService.sendMessage(this.userName, this.messageContent).subscribe({
+        next: (res : Message) => {
+          this.messages.push(res);
+          this.messageForm.reset();
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
-  loadMessages() {
-    this._messagesService.getMesageIsRead(this.userName).subscribe({
-      next: (res) => {
-        this.messages = res;
-        console.log(res);
-
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
-  }
 
 }
