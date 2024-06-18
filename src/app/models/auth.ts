@@ -9,4 +9,5 @@ export interface IUser {
   gender: string;
   token: string;
   photoUrl: string;
+  roles: string[];
 }

@@ -42,6 +42,9 @@ export class AuthService {
   }
 
   setCurrentUser(user: IUser) {
+    user.roles = [];
+    const roles = this.getDecodedToken(user.token).role;
+    Array.isArray(roles) ? (user.roles = roles) : user.roles.push(roles);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
@@ -54,6 +57,10 @@ export class AuthService {
   private handleError(message: string, error: any) {
     console.error(message, error);
     return throwError(() => new Error(`${message}, please try again.`));
+  }
+
+  getDecodedToken(token: string) {
+    return JSON.parse(atob(token.split('.')[1]));
   }
 
 }

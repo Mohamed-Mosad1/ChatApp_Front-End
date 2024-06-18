@@ -17,7 +17,8 @@ export class NavBarComponent implements OnInit {
   navLinks : {path: string, label: string}[] = [
     { path: '/members', label: 'Members' },
     { path: '/lists', label: 'List' },
-    { path: '/message', label: 'Message' }
+    { path: '/message', label: 'Message' },
+    { path: '/admin', label: 'Admin' }
   ];
 
 

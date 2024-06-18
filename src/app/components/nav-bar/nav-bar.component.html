@@ -7,9 +7,15 @@
 
       <ul *ngIf="(_authService.currentUser$ | async)"
         class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <ng-container *ngFor="let link of navLinks">
-          <li><a [routerLink]="link.path" routerLinkActive="text-white" class="nav-link px-2 text-secondary">{{
-              link.label }}</a></li>
+        <ng-container>
+          <li><a routerLink="/members" routerLinkActive="text-white" class="nav-link px-2 text-secondary">
+            Members</a></li>
+          <li><a routerLink="/lists" routerLinkActive="text-white" class="nav-link px-2 text-secondary">
+            Lists</a></li>
+          <li><a routerLink="/message" routerLinkActive="text-white" class="nav-link px-2 text-secondary">
+            Message</a></li>
+          <li><a *appHasRole="['Admin', 'Moderator']" routerLink="/admin" routerLinkActive="text-white" class="nav-link px-2 text-secondary">
+            Admin</a></li>
         </ng-container>
       </ul>
 

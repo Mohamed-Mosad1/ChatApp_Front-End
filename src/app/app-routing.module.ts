@@ -10,6 +10,8 @@ import { authGuard } from './core/guards/auth.guard';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { preventUnsavedChangesGuard } from './core/guards/prevent-unsaved-changes.guard';
 import { MemberDetailsResolver } from './_resolvers/member-details-resolver';
+import { AdminPanelComponent } from './Admin/admin-panel/admin-panel.component';
+import { adminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -20,6 +22,7 @@ const routes: Routes = [
       { path: 'members/edit', component: MemberEditComponent, canDeactivate: [preventUnsavedChangesGuard] },
       { path: 'lists', component: ListsComponent },
       { path: 'message', component: MessagesComponent },
+      { path: 'admin', component: AdminPanelComponent, canActivate: [adminGuard] },
     ],
   },
 
