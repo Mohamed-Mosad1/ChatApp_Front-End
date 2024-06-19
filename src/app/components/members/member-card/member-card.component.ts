@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 import { MembersService } from 'src/app/core/services/members.service';
 import { PresenceService } from 'src/app/core/services/presence.service';
 import { Member } from 'src/app/models/member';
@@ -30,4 +31,7 @@ export class MemberCardComponent {
       },
     });
   }
+
+  
+
 }

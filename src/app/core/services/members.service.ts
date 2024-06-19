@@ -24,7 +24,7 @@ export class MembersService {
       next: (res) => {
         if (res) {
           this.user = res;
-          this.userParams = new UserParams(res);
+          this.userParams = new UserParams();
         }
       },
     })
@@ -49,12 +49,14 @@ export class MembersService {
   }
 
   resetUserParams() {
-    this.userParams = new UserParams(this.user);
+    this.userParams = new UserParams();
     return this.userParams;
   }
 
   getMembers(userParams: UserParams) {
     console.log(Object.values(userParams).join(','));
+    const lsUser = JSON.parse(localStorage.getItem('user')!);
+    userParams.currentUserName = lsUser.userName;
     var response = this.memberCaching.get(Object.values(userParams).join(','));
     if (response) return of(response);
     let params = getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
@@ -62,6 +64,7 @@ export class MembersService {
     params = params.append('maxAge', userParams.maxAge.toString());
     params = params.append('gender', userParams.gender);
     params = params.append('orderBy', userParams.orderBy);
+    params = params.append('currentUserName', userParams.currentUserName);
 
     return getPaginatedResult<Member[]>(this.baseUrl + 'Accounts/get-all-users',params, this._httpClient)
     .pipe(

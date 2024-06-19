@@ -1,6 +1,6 @@
-import { IUser } from "./auth";
 
 export class UserParams {
+  currentUserName: string = '';
   gender: string = '';
   minAge: number = 18;
   maxAge: number = 80;
@@ -8,8 +8,5 @@ export class UserParams {
   pageSize: number = 8;
   orderBy: string = 'lastActive';
 
-  constructor(user: IUser) {
-    this.gender = user.gender === 'male' ? 'female' : 'male';
-
-  }
+  constructor() {}
 }

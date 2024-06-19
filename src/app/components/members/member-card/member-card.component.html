@@ -1,7 +1,10 @@
-<div class="card" *ngIf="member">
+<div class="card overflow-hidden" *ngIf="member">
   <div class="card-image-wrapper">
-    <img class="card-img-top" [src]="member.photoUrl == baseServerUrl ? './assets/default-user-img.png' : member.photoUrl" [alt]="member.userName" />
-    <ul class="list-inline text-center animate member-icons">
+    <img [routerLink]="['/member/', member.userName]" style="cursor: pointer;" [queryParams]="{tab: 3}" class="card-img-top" [src]="member.photoUrl == baseServerUrl ? './assets/default-user-img.png' : member.photoUrl" [alt]="member.userName" />
+
+  </div>
+  <div class="card-body">
+    <ul class="list-inline text-center mb-2">
       <li class="list-inline-item">
         <button [routerLink]="['/member/', member.userName]" type="button" class="btn btn-warning">
           <i class="fas fa-user"></i>
@@ -18,15 +21,11 @@
         </button>
       </li>
     </ul>
-
-  </div>
-  <div class="card-body">
-    <h5 class="card-title text-center mb-2">
+    <h5 class="card-title text-center mb-2" [class.h6]="member.userName.length > 5">
       <span [class.is-online]="(_presenceService.onlineUsers$ | async)?.includes(member.userName)">
-
-        <i class="fa fa-circle-dot me-1"></i>
+        <i *ngIf="(_presenceService.onlineUsers$ | async)?.includes(member.userName)" class="fa fa-circle-dot me-1"></i>
+        <i *ngIf="!(_presenceService.onlineUsers$ | async)?.includes(member.userName)" class="fa fa-user me-1"></i>
       </span>
-      <i class="fa fa-user me-1"></i>
       {{member.userName | titlecase}} - {{member.age}}
     </h5>
     <p class="card-text text-muted text-center">{{member.city}}</p>

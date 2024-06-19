@@ -16,23 +16,8 @@
   position: relative;
 }
 
-.member-icons {
-  position: absolute;
-  bottom: -30%;
-  left: 0;
-  right: 0;
-  margin-right: auto;
-  margin-left: auto;
-  opacity: 0;
-}
-
-.card-image-wrapper:hover .member-icons {
-  opacity: 1;
-  bottom: 0;
-}
-
 .animate {
-  transition: all 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 }
 
 .card-img-top{
@@ -41,7 +26,7 @@
 }
 
 .card-body{
-  height: 6rem;
+  height: 8rem;
   overflow: hidden;
 }
 

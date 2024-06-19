@@ -14,12 +14,6 @@ export class NavBarComponent implements OnInit {
   loginForm!: FormGroup;
   loggedIn = false;
   baseServerUrl: string = environment.baseServerUrl;
-  navLinks : {path: string, label: string}[] = [
-    { path: '/members', label: 'Members' },
-    { path: '/lists', label: 'List' },
-    { path: '/message', label: 'Message' },
-    { path: '/admin', label: 'Admin' }
-  ];
 
 
   constructor(

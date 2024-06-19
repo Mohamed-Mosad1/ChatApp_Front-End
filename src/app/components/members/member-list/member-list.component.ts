@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Member } from 'src/app/models/member';
 import { MembersService } from 'src/app/core/services/members.service';
 import { UserParams } from 'src/app/models/UserParams';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { take } from 'rxjs';
 import { IUser } from 'src/app/models/auth';
 
 @Component({
@@ -34,7 +32,7 @@ export class MemberListComponent implements OnInit {
     this._membersService.setUserParams(this.userParams);
     this._membersService.getMembers(this.userParams).subscribe({
       next: (res) => {
-        this.members = res.result;
+        this.members = res.result
         this.Pagination = res.pagination;
       },
       error: (err) => {
