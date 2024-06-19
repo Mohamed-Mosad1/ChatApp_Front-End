@@ -22,6 +22,10 @@
   </div>
   <div class="card-body">
     <h5 class="card-title text-center mb-2">
+      <span [class.is-online]="(_presenceService.onlineUsers$ | async)?.includes(member.userName)">
+
+        <i class="fa fa-circle-dot me-1"></i>
+      </span>
       <i class="fa fa-user me-1"></i>
       {{member.userName | titlecase}} - {{member.age}}
     </h5>

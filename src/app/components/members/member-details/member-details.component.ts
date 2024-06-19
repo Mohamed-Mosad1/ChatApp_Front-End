@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { MessageService } from 'src/app/core/services/message.service';
+import { PresenceService } from 'src/app/core/services/presence.service';
 import { Member } from 'src/app/models/member';
 import { Message } from 'src/app/models/messages';
 
@@ -23,7 +24,8 @@ export class MemberDetailsComponent implements OnInit {
 
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _messagesService: MessageService
+    private _messagesService: MessageService,
+    public _presenceService: PresenceService
   ) {}
 
   ngOnInit(): void {
