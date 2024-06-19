@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/assets/environments/environment';
 import { AuthService } from './core/services/auth.service';
 import { IUser } from './models/auth';
+import { PresenceService } from './core/services/presence.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit {
 
   baseUrl: string = environment.baseUrl;
 
-  constructor(private _authService: AuthService) {}
+  constructor(private _authService: AuthService, private _presenceService: PresenceService) {}
 
   ngOnInit(): void {
     this.setCurrentUser();
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit {
     if (lsUser) {
       const user: IUser = JSON.parse(lsUser);
       this._authService.setCurrentUser(user);
+      this._presenceService.createHubConnection(user);
     }
   }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/assets/environments/environment';
 import { ILogin, IUser } from '../../models/auth';
 import { ReplaySubject, catchError, map, throwError } from 'rxjs';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class AuthService {
   private currentUserSource = new ReplaySubject<IUser | null>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private _httpClient: HttpClient) {}
+  constructor(private _httpClient: HttpClient, private _presenceService: PresenceService) {}
 
   login(model: ILogin) {
     return this._httpClient
@@ -21,6 +22,7 @@ export class AuthService {
         map((user) => {
           if (user) {
             this.setCurrentUser(user);
+            this._presenceService.createHubConnection(user);
           }
         }),
         catchError((error) => this.handleError('Login failed', error))
@@ -35,6 +37,7 @@ export class AuthService {
         map((user) => {
           if (user) {
             this.setCurrentUser(user);
+            this._presenceService.createHubConnection(user);
           }
         }),
         catchError((error) => this.handleError('Registration failed', error))
@@ -52,6 +55,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+    this._presenceService.stopHubConnection();
   }
 
   private handleError(message: string, error: any) {
