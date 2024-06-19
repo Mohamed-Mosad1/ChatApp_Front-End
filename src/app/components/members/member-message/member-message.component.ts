@@ -16,7 +16,10 @@ export class MemberMessageComponent implements OnInit {
   @Input() userName: string = '';
   messageContent: string = '';
 
-  constructor(private _messageService: MessageService, private _toastrService: ToastrService) {}
+  constructor(
+    public _messageService: MessageService,
+    private _toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -25,15 +28,9 @@ export class MemberMessageComponent implements OnInit {
       this._toastrService.warning('Please enter a message');
       return;
     }
-    this._messageService.sendMessage(this.userName, this.messageContent).subscribe({
-        next: (res : Message) => {
-          this.messages.push(res);
-          this.messageForm.reset();
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    this._messageService.sendMessage(this.userName, this.messageContent).then(message =>{
+      this.messageForm.reset();
+    });
   }
 
 
