@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/assets/environments/environment';
 import { IUpdateMember, Member, Photo } from '../../models/member';
-import { map, of, take } from 'rxjs';
+import { Observable, map, of, take } from 'rxjs';
 import { AuthService } from './auth.service';
 import { IUser } from 'src/app/models/auth';
 import { getPaginatedResult, getPaginationHeaders } from './PaginationHelper';
@@ -30,8 +30,8 @@ export class MembersService {
     })
   }
 
-  addLike(userName: string) {
-    return this._httpClient.post(`${this.baseUrl}Likes/add-like/${userName}`, {})
+  addLike(userName: string): Observable<any> {
+    return this._httpClient.post(`${this.baseUrl}Likes/add-or-remove-like/${userName}`, {})
   }
 
   getLikes(predicate: string, pageNumber: number, pageSize: number) {

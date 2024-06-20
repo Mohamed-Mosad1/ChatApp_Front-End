@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { MembersService } from 'src/app/core/services/members.service';
 import { IUser } from 'src/app/models/auth';
 import { Member, Photo } from 'src/app/models/member';
+import { environment } from 'src/assets/environments/environment';
 
 @Component({
   selector: 'app-photo-editor',
@@ -16,6 +17,7 @@ export class PhotoEditorComponent implements OnInit {
   selectedFile!: File;
   currentUserImage!: string | ArrayBuffer | undefined | null;
   user!: IUser | null;
+  baseServerUrl = environment.baseServerUrl;
 
   @ViewChild('photoMember') memberProfilePhoto!: ElementRef<HTMLInputElement>;
 
@@ -27,19 +29,24 @@ export class PhotoEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this._authService.currentUser$.pipe(take(1)).subscribe({
-      next: user => this.user = user,
-      error: err => console.error('Error fetching current user:', err)
+      next: (user) => (this.user = user),
+      error: (err) => console.error('Error fetching current user:', err),
     });
+
+    // Initialize member data if not provided
+    if (!this.member && this.user) {
+      this.getMember();
+    }
   }
 
   private getMember(): void {
     if (this.user) {
       this._memberService.getMemberByUserName(this.user.userName).subscribe({
-        next: member => this.member = member,
-        error: err => {
+        next: (member) => (this.member = member),
+        error: (err) => {
           this._toastrService.error('Error fetching member details');
           console.error('Error fetching member details:', err);
-        }
+        },
       });
     }
   }
@@ -54,15 +61,15 @@ export class PhotoEditorComponent implements OnInit {
     formData.append('file', this.selectedFile, this.selectedFile.name);
 
     this._memberService.uploadMemberPhoto(formData).subscribe({
-      next: (res: any) => {
+      next: (res: Photo) => {
         this._toastrService.success('Photo uploaded successfully');
         this.reset();
         this.member.photos.push(res);
       },
-      error: err => {
+      error: (err) => {
         this._toastrService.error('Error uploading photo');
         console.error('Error uploading photo:', err);
-      }
+      },
     });
   }
 
@@ -77,7 +84,7 @@ export class PhotoEditorComponent implements OnInit {
         this.currentUserImage = e.target?.result;
       };
 
-      reader.onerror = error => {
+      reader.onerror = (error) => {
         console.error('Error reading file:', error);
         this.currentUserImage = null;
       };
@@ -99,35 +106,35 @@ export class PhotoEditorComponent implements OnInit {
     this._memberService.deletePhoto(photoId).subscribe({
       next: () => {
         this._toastrService.success('Photo deleted successfully');
-        this.getMember();
+        this.member.photos = this.member.photos.filter((p) => p.id !== photoId);
       },
-      error: err => {
+      error: (err) => {
         this._toastrService.error('Error deleting photo');
         console.error('Error deleting photo:', err);
-      }
+      },
     });
   }
 
   setMainMemberPhoto(photo: Photo): void {
     this._memberService.setMainPhoto(photo.id).subscribe({
-      next: res => {
+      next: (res) => {
         if (res) {
           this.member.photoUrl = photo.url;
           if (this.user) {
             this.user.photoUrl = photo.url;
             this._authService.setCurrentUser(this.user);
           }
-          this.member.photos.forEach(p => {
+          this.member.photos.forEach((p) => {
             if (p.isMain) p.isMain = false;
             if (p.id === photo.id) p.isMain = true;
           });
           this._toastrService.success('Main photo set successfully');
         }
       },
-      error: err => {
+      error: (err) => {
         this._toastrService.error('Error setting main photo');
         console.error('Error setting main photo:', err);
-      }
+      },
     });
   }
 }

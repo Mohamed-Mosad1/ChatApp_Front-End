@@ -1,0 +1,26 @@
+.img-thumbnail {
+  max-width: 100%;
+  height: auto;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.me-1 {
+  margin-right: 0.25rem;
+}
+
+@media (max-width: 576px) {
+  .img-fluid {
+    max-height: 150px;
+  }
+}
