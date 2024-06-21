@@ -1,15 +1,18 @@
 import { Pagination } from './../../../models/Pagination';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Member } from 'src/app/models/member';
 import { MembersService } from 'src/app/core/services/members.service';
 import { UserParams } from 'src/app/models/UserParams';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-member-list',
   templateUrl: './member-list.component.html',
   styleUrls: ['./member-list.component.scss'],
 })
-export class MemberListComponent implements OnInit {
+export class MemberListComponent implements OnInit, OnDestroy {
+
+  private subscription: Subscription = new Subscription();
   members!: Member[];
   Pagination!: Pagination;
   userParams!: UserParams;
@@ -31,12 +34,12 @@ export class MemberListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMembers();
-    // this.loadLikes();
+    this.loadLikes();
   }
 
   getMembers() {
     this._membersService.setUserParams(this.userParams);
-    this._membersService.getMembers(this.userParams).subscribe({
+    const sub = this._membersService.getMembers(this.userParams).subscribe({
       next: (res) => {
         this.members = res.result;
         this.Pagination = res.pagination;
@@ -45,6 +48,7 @@ export class MemberListComponent implements OnInit {
         console.log(err);
       },
     });
+    this.subscription.add(sub);
   }
 
 
@@ -56,9 +60,6 @@ export class MemberListComponent implements OnInit {
         // Extract userName from each member and log the result
         const likedUserNames = this.likedMembers.map((member:any) => member.userName);
         this.likeUserNames = likedUserNames
-        console.log(this.likeUserNames);
-
-
       },
       error: (err) => {
         console.log(err);
@@ -76,5 +77,9 @@ export class MemberListComponent implements OnInit {
   resetFilters() {
     this.userParams = this._membersService.resetUserParams();
     this.getMembers();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

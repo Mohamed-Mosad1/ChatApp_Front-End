@@ -7,15 +7,9 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
-  registerMode:boolean = false;
+
 
   constructor() { }
 
-  registerToggle() {
-    this.registerMode = !this.registerMode;
-  }
 
-  cancelRegisterMode(value:boolean) {
-    this.registerMode = value;
-  }
 }

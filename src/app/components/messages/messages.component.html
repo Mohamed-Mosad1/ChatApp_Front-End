@@ -1,10 +1,10 @@
 <div class="row my-4">
-  <div class="col-md-6">
+  <div class="col-md-6 text-center">
     <div class="btn-group" name='container'>
       <button class="btn btn-warning" btnRadio='UnRead' [(ngModel)]="container" (click)="loadMessages()">
         <i class="fa fa-envelope"></i> UnRead
       </button>
-      <button class="btn btn-warning" btnRadio='Inbox' [(ngModel)]="container" (click)="loadMessages()">
+      <button class="btn btn-warning mx-2" btnRadio='Inbox' [(ngModel)]="container" (click)="loadMessages()">
         <i class="fa fa-envelope-open"></i> Inbox
       </button>
       <button class="btn btn-warning" btnRadio='Outbox' [(ngModel)]="container" (click)="loadMessages()">

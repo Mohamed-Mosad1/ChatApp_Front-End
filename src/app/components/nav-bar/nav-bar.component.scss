@@ -1,6 +1,28 @@
 .img-profile{
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   margin-right: 10px;
   border: 1px solid #fff;
 }
+
+@media (max-width: 700px) { // Small screens
+  .mat-toolbar {
+    .display-none-sc {
+      display: none!important;
+    }
+
+  }
+}
+@media (min-width: 700.01px) { // Large screens
+  .mat-toolbar {
+    .d-small {
+      display: none!important;
+    }
+    #sidenav {
+      display: none!important;
+  }
+  }
+}
+
+
+

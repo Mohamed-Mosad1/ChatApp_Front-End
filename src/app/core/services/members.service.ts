@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/assets/environments/environment';
 import { IUpdateMember, Member, Photo } from '../../models/member';
-import { Observable, map, of, take } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, take } from 'rxjs';
 import { AuthService } from './auth.service';
 import { IUser } from 'src/app/models/auth';
 import { getPaginatedResult, getPaginationHeaders } from './PaginationHelper';
@@ -18,6 +18,8 @@ export class MembersService {
 
   user!: IUser;
   userParams!: UserParams;
+  private likedUserNames: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+  currentLikedUserNames = this.likedUserNames.asObservable();
 
   constructor(private _httpClient: HttpClient, private _authService: AuthService) {
     _authService.currentUser$.pipe(take(1)).subscribe({
@@ -54,7 +56,6 @@ export class MembersService {
   }
 
   getMembers(userParams: UserParams) {
-    console.log(Object.values(userParams).join(','));
     const lsUser = JSON.parse(localStorage.getItem('user')!);
     userParams.currentUserName = lsUser.userName;
     var response = this.memberCaching.get(Object.values(userParams).join(','));

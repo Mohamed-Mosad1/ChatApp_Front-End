@@ -13,6 +13,8 @@ import { environment } from 'src/assets/environments/environment';
 })
 export class MemberCardComponent {
   @Input() member!: Member;
+  @Input() likedUserNames: string[] = [];
+  likeName: string= '';
 
   baseServerUrl: string = environment.baseServerUrl;
 
@@ -24,10 +26,16 @@ export class MemberCardComponent {
 
   addLike(userName: string) {
     this._membersService.addLike(userName).subscribe({
-      next: (res :IBaseResponse) => {
+      next: (res: IBaseResponse) => {
+        this.likeName = res.data.likedUserName;
         if (res.message.includes('unliked')) {
+          const index = this.likedUserNames.indexOf(this.likeName);
+          if (index !== -1) {
+            this.likedUserNames.splice(index, 1);
+          }
           this._toasterService.info(res.message + this.member.userName);
-        }else{
+        } else {
+          this.likedUserNames.push(this.likeName);
           this._toasterService.success(res.message + this.member.userName);
         }
       },
@@ -36,6 +44,7 @@ export class MemberCardComponent {
       },
     });
   }
+
 
 
 

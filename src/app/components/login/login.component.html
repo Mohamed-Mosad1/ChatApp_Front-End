@@ -1,0 +1,18 @@
+  <h2 class="text-center text-primary">Login</h2>
+  <hr>
+  <form [formGroup]="loginForm" (ngSubmit)="login()" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+
+    <app-text-input type="text" label="User Name" [formControl]="loginForm.controls['userName']"></app-text-input>
+    <app-text-input type="password" label="Password" [formControl]="loginForm.controls['password']"></app-text-input>
+
+    <div class="form-group text-center">
+      <button type="submit" [disabled]="loginForm.invalid" class="btn btn-success me-2">
+        <i class="fas fa-right-to-bracket mx-1"></i>
+        Login
+      </button>
+      <button type="button" class="btn btn-warning" routerLink="/home">
+        <i class="fas fa-right-left mx-1"></i>
+        Cancel
+      </button>
+    </div>
+  </form>

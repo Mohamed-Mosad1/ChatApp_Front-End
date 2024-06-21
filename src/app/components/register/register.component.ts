@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -16,7 +16,6 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  @Output() cancelRegister = new EventEmitter<boolean>();
   registerForm: FormGroup = new FormGroup({});
   maxDate: Date = new Date();
 
@@ -62,8 +61,7 @@ export class RegisterComponent implements OnInit {
     this._authService.register(this.registerForm.value).subscribe({
       next: (user) => {
         this._toastrService.success('Registered successfully');
-        this.cancel();
-        this._router.navigate(['/member']);
+        this._router.navigate(['/members']);
       },
       error: (err) => {
         const errorMessage = this.extractErrorMessage(err);
@@ -80,7 +78,5 @@ export class RegisterComponent implements OnInit {
     return 'An unexpected error occurred';
   }
 
-  cancel() {
-    this.cancelRegister.emit(false);
-  }
+
 }

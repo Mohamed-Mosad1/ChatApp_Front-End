@@ -28,6 +28,7 @@ import { AdminPanelComponent } from './Admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directive/has-role.directive';
 import { AdminManagementComponent } from './Admin/admin-management/admin-management.component';
 import { RolesModalsComponent } from './_modals/roles-modals/roles-modals.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { RolesModalsComponent } from './_modals/roles-modals/roles-modals.compon
     HasRoleDirective,
     AdminManagementComponent,
     RolesModalsComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

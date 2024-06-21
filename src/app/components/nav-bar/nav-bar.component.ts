@@ -15,7 +15,6 @@ export class NavBarComponent implements OnInit {
   loggedIn = false;
   baseServerUrl: string = environment.baseServerUrl;
 
-
   constructor(
     public _authService: AuthService,
     private _formBuilder: FormBuilder,

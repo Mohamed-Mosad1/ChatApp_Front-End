@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
+// import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { take } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -20,8 +20,8 @@ export class MemberDetailsComponent implements OnInit,OnDestroy {
   @ViewChild('memberTabs', {static: true}) memberTabs!: TabsetComponent;
 
   member!: Member;
-  galleryOptions!: NgxGalleryOptions[];
-  galleryImages!: NgxGalleryImage[];
+  // galleryOptions!: NgxGalleryOptions[];
+  // galleryImages!: NgxGalleryImage[];
   activeTab!:TabDirective;
   messages:Message[] = [];
   user!:IUser;
@@ -43,7 +43,7 @@ export class MemberDetailsComponent implements OnInit,OnDestroy {
     this._activatedRoute.data.subscribe({
       next: (data) => {
         this.member = data['member'];
-        this.galleryImages = this.getImages();
+        // this.galleryImages = this.getImages();
       },
       error: (err) => {
         console.log(err);
@@ -60,44 +60,30 @@ export class MemberDetailsComponent implements OnInit,OnDestroy {
     })
     // this.loadMembers();
 
-    this.galleryOptions = [
-      {
-        width: '500px',
-        height: '500px',
-        imagePercent: 100,
-        thumbnailsColumns: 4,
-        imageAnimation: NgxGalleryAnimation.Slide
-      },
-    ];
+    // this.galleryOptions = [
+    //   {
+    //     width: '500px',
+    //     height: '500px',
+    //     imagePercent: 100,
+    //     thumbnailsColumns: 4,
+    //     imageAnimation: NgxGalleryAnimation.Slide
+    //   },
+    // ];
   }
 
-  getImages(): NgxGalleryImage[] {
-    const imageUrls: NgxGalleryImage[] = [];
-    for (const photo of this.member.photos) {
-      imageUrls.push({
-        small: photo?.url,
-        medium: photo?.url,
-        big: photo?.url,
-      });
-    }
-    return imageUrls;
-  }
-
-  // loadMembers() {
-  //   this._membersService
-  //     .getMemberByUserName(this._activatedRoute.snapshot.paramMap.get('userName') ?? '')
-  //     .subscribe({
-  //       next: (res) => {
-  //         if (res) {
-  //           this.member = res;
-  //           this.galleryImages = this.getImages();
-  //         }
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //       }
+  // getImages(): NgxGalleryImage[] {
+  //   const imageUrls: NgxGalleryImage[] = [];
+  //   for (const photo of this.member.photos) {
+  //     imageUrls.push({
+  //       small: photo?.url,
+  //       medium: photo?.url,
+  //       big: photo?.url,
   //     });
+  //   }
+  //   return imageUrls;
   // }
+
+
 
   loadMessages() {
     this._messagesService.getMesageIsRead(this.member.userName).subscribe({
