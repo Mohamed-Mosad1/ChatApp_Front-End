@@ -5,7 +5,7 @@ import { getPaginatedResult, getPaginationHeaders } from './PaginationHelper';
 import { Message } from 'src/app/models/messages';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { IUser } from 'src/app/models/auth';
-import { ReplaySubject, take } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,20 +14,20 @@ export class MessageService {
   baseUrl: string = environment.baseUrl;
   hubUrl: string = environment.hubUrl;
   private hubConnection!: HubConnection;
-  private messageReadSource = new ReplaySubject<Message[]>(1);
+  private messageReadSource = new BehaviorSubject<Message[]>([]);
   messageRead$ = this.messageReadSource.asObservable();
 
   constructor(private _httpClient: HttpClient) {}
 
   createHubConnection(user: IUser, otherUserName: string) {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(this.hubUrl + 'message?user=' + otherUserName, {
-        accessTokenFactory: () => user.token,
-      })
-      .withAutomaticReconnect()
-      .build();
+    .withUrl(this.hubUrl + 'message?user=' + otherUserName, {
+      accessTokenFactory: () => user.token,
+    })
+    .withAutomaticReconnect()
+    .build();
 
-    this.hubConnection.start().catch((error) => console.log(error));
+    this.hubConnection.start().catch((error) => console.log(error.message));
 
     this.hubConnection.on('ReceiveMessageRead', (messages) => {
       this.messageReadSource.next(messages);
@@ -36,10 +36,13 @@ export class MessageService {
     this.hubConnection.on('NewMessage', (newMessage) => {
       this.messageRead$.pipe(take(1)).subscribe({
         next: (messages) => {
-          this.messageReadSource.next([...messages, newMessage]);
+          this.messageReadSource.next([...messages, newMessage])
+          
+          console.log(this.messageReadSource.value);
         },
       });
     });
+
   }
 
   stopHubConnection() {

@@ -90,6 +90,15 @@ $client-theme: mat.define-light-theme((
     border-top: 1px solid #eee;
     padding: 15px 0;
   }
-  
+
+  .changed-card {
+    margin-bottom: 15px;
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

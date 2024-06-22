@@ -14,12 +14,10 @@ import { getPaginatedResult, getPaginationHeaders } from './PaginationHelper';
 export class MembersService {
 
   baseUrl = environment.baseUrl;
-  memberCaching = new Map();
+  // memberCaching = new Map();
 
   user!: IUser;
   userParams!: UserParams;
-  private likedUserNames: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
-  currentLikedUserNames = this.likedUserNames.asObservable();
 
   constructor(private _httpClient: HttpClient, private _authService: AuthService) {
     _authService.currentUser$.pipe(take(1)).subscribe({
@@ -32,7 +30,7 @@ export class MembersService {
     })
   }
 
-  addLike(userName: string): Observable<any> {
+  addOrRemoveLike(userName: string): Observable<any> {
     return this._httpClient.post(`${this.baseUrl}Likes/add-or-remove-like/${userName}`, {})
   }
 
@@ -58,8 +56,8 @@ export class MembersService {
   getMembers(userParams: UserParams) {
     const lsUser = JSON.parse(localStorage.getItem('user')!);
     userParams.currentUserName = lsUser.userName;
-    var response = this.memberCaching.get(Object.values(userParams).join(','));
-    if (response) return of(response);
+    // var response = this.memberCaching.get(Object.values(userParams).join(','));
+    // if (response) return of(response);
     let params = getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
     params = params.append('minAge', userParams.minAge.toString());
     params = params.append('maxAge', userParams.maxAge.toString());
@@ -70,7 +68,7 @@ export class MembersService {
     return getPaginatedResult<Member[]>(this.baseUrl + 'Accounts/get-all-users',params, this._httpClient)
     .pipe(
       map((res) => {
-        this.memberCaching.set(Object.values(userParams).join(','), res);
+        // this.memberCaching.set(Object.values(userParams).join(','), res);
         return res;
       })
     );
@@ -79,12 +77,12 @@ export class MembersService {
 
 
   getMemberByUserName(userName: string) {
-    const member = [...this.memberCaching.values()]
-    .reduce((previousValue, currentValue) => previousValue.concat(currentValue.result), [])
-    .find((member: Member) => member.userName === userName);
-    if(member) {
-      return of(member);
-    }
+    // const member = [...this.memberCaching.values()]
+    // .reduce((previousValue, currentValue) => previousValue.concat(currentValue.result), [])
+    // .find((member: Member) => member.userName === userName);
+    // if(member) {
+      // return of(member);
+    // }
     return this._httpClient.get<Member>(this.baseUrl + 'Accounts/get-user-by-userName/' + userName);
   }
 

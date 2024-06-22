@@ -1,26 +1,20 @@
-<div class="text-center mt-3">
-  <h2>{{predicate === 'liked' ? 'Members I like' : 'Members who like me'}}</h2>
-</div>
-
-<div class="container mt-3">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="btn-group" name="predicate">
-        <button class="btn btn-warning me-3" btnRadio="liked"
-        [(ngModel)]="predicate" (click)="loadLikes()">Members I like</button>
-        <button class="btn btn-warning" btnRadio="likedBy"
-        [(ngModel)]="predicate" (click)="loadLikes()">Members who like me</button>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-3 changed-card" *ngFor="let member of members">
-        <app-member-card [member]="member"></app-member-card>
-      </div>
+<div class="row mx-3 justify-content-center">
+  <div class="col-12 text-center my-3">
+    <h2>{{predicate === 'liked' ? 'Members I Like' : 'Members Who Like Me'}}</h2>
+  </div>
+  <div class="col-md-6 text-center mb-3">
+    <div class="group" name="predicate">
+      <button class="btn btn-custom" [ngClass]="{'btn-active': predicate === 'liked'}" btnRadio="liked" [(ngModel)]="predicate" (click)="loadLikes()">Members I Like</button>
+      <button class="btn btn-custom" [ngClass]="{'btn-active': predicate === 'likedBy'}" btnRadio="likedBy" [(ngModel)]="predicate" (click)="loadLikes()">Members Who Like Me</button>
     </div>
   </div>
 </div>
-
-<div class="d-flex justify-content-center my-4" *ngIf="pagination">
+<div class="row mt-3">
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-3 changed-card" *ngFor="let member of members">
+    <app-member-card [likedUserNames]="likeUserNames" [member]="member"></app-member-card>
+  </div>
+</div>
+<div class="d-flex justify-content-center my-4" *ngIf="pagination?.totalItems > 7">
   <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
     [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"
     firstText="&laquo;" lastText="&raquo;">

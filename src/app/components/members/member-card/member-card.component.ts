@@ -24,8 +24,8 @@ export class MemberCardComponent {
     public _presenceService: PresenceService
   ) {    }
 
-  addLike(userName: string) {
-    this._membersService.addLike(userName).subscribe({
+  addOrRemoveLike(userName: string) {
+    this._membersService.addOrRemoveLike(userName).subscribe({
       next: (res: IBaseResponse) => {
         this.likeName = res.data.likedUserName;
         if (res.message.includes('unliked')) {

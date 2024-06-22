@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -13,14 +12,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import {MatMenuModule} from '@angular/material/menu';
-
+import { MatMenuModule } from '@angular/material/menu';
+import { GalleryComponent } from '@daelmaak/ngx-gallery';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    // NgxGalleryModule,
+    GalleryComponent,
     NgxSpinnerModule,
     MatToolbarModule,
     MatSidenavModule,
@@ -33,7 +32,7 @@ import {MatMenuModule} from '@angular/material/menu';
     PaginationModule.forRoot(),
     ButtonsModule.forRoot(),
     TimeagoModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
   exports: [
     MatToolbarModule,
@@ -43,13 +42,13 @@ import {MatMenuModule} from '@angular/material/menu';
     MatListModule,
     MatMenuModule,
     TabsModule,
-    // NgxGalleryModule,
+    GalleryComponent,
     NgxSpinnerModule,
     BsDatepickerModule,
     PaginationModule,
     ButtonsModule,
     TimeagoModule,
-    ModalModule
-  ]
+    ModalModule,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

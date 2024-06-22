@@ -2,3 +2,115 @@
   width: 3rem;
   height: 3rem;
 }
+
+// Variables
+$primary-color: #ffc107;
+$primary-color-hover: #e0a800;
+$text-color-dark: #000;
+$text-color-light: #fff;
+$secondary-color: #6c757d;
+$secondary-hover-color: darken($secondary-color, 10%);
+
+// Mixin for button styles
+@mixin btn-custom($bg-color, $border-color, $text-color, $hover-bg-color, $hover-border-color, $hover-text-color) {
+  background-color: $bg-color;
+  border-color: $border-color;
+  color: $text-color;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: $hover-bg-color;
+    border-color: $hover-border-color;
+    color: $hover-text-color;
+  }
+}
+
+.container {
+  padding: 20px;
+
+  @media (max-width: 576px) {
+    padding: 10px;
+  }
+}
+
+.text-center {
+  margin-bottom: 20px;
+}
+
+.group {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  .btn {
+    @include btn-custom($primary-color, $primary-color, $text-color-dark, $primary-color-hover, $primary-color-hover, $text-color-light);
+    margin: 5px;
+  }
+
+  .btn-active {
+    background-color: $primary-color-hover;
+    border-color: $primary-color-hover;
+    color: $text-color-light;
+  }
+}
+
+.table-hover {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+
+    @media (max-width: 576px) {
+      padding: 8px;
+    }
+  }
+
+  th {
+    background-color: $primary-color;
+    color: $text-color-dark;
+
+    @media (max-width: 576px) {
+      font-size: 14px;
+    }
+  }
+
+  td {
+    @media (max-width: 576px) {
+      font-size: 12px;
+    }
+  }
+}
+
+.img-circle {
+  width: 40px;
+  height: 40px;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+@media (max-width: 576px) {
+  .group {
+    width: 100%;
+    flex-wrap: nowrap;
+
+    .btn {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+  }
+
+  .btn-custom {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+}

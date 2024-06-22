@@ -1,60 +1,58 @@
-  <header class="position-relative">
+<header class="position-relative">
   <mat-toolbar class="bg-dark justify-content-between align-items-center">
     <div class="d-flex">
-      <button mat-icon-button class="d-small me-2 text-white" *ngIf="(_authService.currentUser$ | async)" (click)="sidenav.toggle()">
+      <button mat-icon-button class="d-small me-2 text-white" *ngIf="(_authService.currentUser$ | async)" (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
-  </button>
-  <a routerLink="" class="d-flex align-items-center text-white text-decoration-none">
-    <img src="./assets/chat-app-logo.avif" class="me-2" width="40" height="32" alt="Chat App Logo">
-  </a>
-</div>
-  <ul *ngIf="(_authService.currentUser$ | async)" class="nav m-auto d-flex display-none-sc">
-    <li><a routerLink="/members" routerLinkActive="text-white" class="nav-link text-warning">Members</a></li>
-    <li><a routerLink="/lists" routerLinkActive="text-white" class="nav-link text-warning">Lists</a></li>
-    <li><a routerLink="/message" routerLinkActive="text-white" class="nav-link text-warning">Message</a></li>
-    <li><a *appHasRole="['Admin', 'Moderator']" routerLink="/admin" routerLinkActive="text-white" class="nav-link text-warning">Admin</a></li>
-  </ul>
-  <div *ngIf="(_authService.currentUser$ | async) as user">
-    <button mat-button [matMenuTriggerFor]="userMenu" class="">
-      <img [src]="user.photoUrl === baseServerUrl || user.photoUrl === null ? './assets/default-user-img.png' : user.photoUrl"
-      class="object-fit-cover rounded-circle img-profile"
-      [alt]="user.userName">
-      <span class="ms-2 bg-light fw-bold rounded-pill px-2">Welcome, {{ user.userName | titlecase }}</span>
-    </button>
-    <mat-menu #userMenu="matMenu">
-      <button mat-menu-item routerLink="/members/edit">
-        <i class="fas fa-pen me-3"></i>
-        Edit Profile
       </button>
-      <button class="text-danger" mat-menu-item (click)="logout()">
-        <i class="fas fa-arrow-left me-3"></i>
-        Logout
+      <a routerLink="" class="d-flex align-items-center text-white text-decoration-none">
+        <img src="./assets/chat-app-logo.avif" class="me-2" width="40" height="32" alt="Chat App Logo">
+      </a>
+    </div>
+    <ul *ngIf="(_authService.currentUser$ | async)" class="nav m-auto d-flex display-none-sc">
+      <li><a routerLink="/members" routerLinkActive="text-white" class="nav-link text-warning">Members</a></li>
+      <li><a routerLink="/lists" routerLinkActive="text-white" class="nav-link text-warning">Lists</a></li>
+      <li><a routerLink="/message" routerLinkActive="text-white" class="nav-link text-warning">Message</a></li>
+      <li><a *appHasRole="['Admin', 'Moderator']" routerLink="/admin" routerLinkActive="text-white" class="nav-link text-warning">Admin</a></li>
+    </ul>
+    <div *ngIf="(_authService.currentUser$ | async) as user">
+      <button mat-button [matMenuTriggerFor]="userMenu">
+        <img [src]="user.photoUrl === baseServerUrl || user.photoUrl === null ? './assets/default-user-img.png' : user.photoUrl"
+          class="object-fit-cover rounded-circle img-profile" [alt]="user.userName">
+        <span class="ms-2 bg-light fw-bold rounded-pill px-2">Welcome, {{ user.userName | titlecase }}</span>
       </button>
-    </mat-menu>
-  </div>
-  <div *ngIf="!(_authService.currentUser$ | async)">
-    <button routerLink="/login" mat-raised-button>Login</button>
-    <button routerLink="/register" class="bg-warning ms-2" mat-raised-button>Register</button>
-  </div>
-</mat-toolbar>
-
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item routerLink="/members/edit">
+          <i class="fas fa-pen me-3"></i>
+          Edit Profile
+        </button>
+        <button class="text-danger" mat-menu-item (click)="logout()">
+          <i class="fas fa-arrow-left me-3"></i>
+          Logout
+        </button>
+      </mat-menu>
+    </div>
+    <div *ngIf="!(_authService.currentUser$ | async)">
+      <button routerLink="/login" mat-raised-button>Login</button>
+      <button routerLink="/register" class="bg-warning ms-2" mat-raised-button>Register</button>
+    </div>
+  </mat-toolbar>
 </header>
 
 
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav mode="side" class="sidenav bg-dark-subtle fw-bold">
+<mat-drawer-container class="bg-white" autosize>
+  <mat-drawer #drawer mode="over" class="sidenav bg-dark-subtle fw-bold">
     <mat-nav-list>
       <mat-list-item><a routerLink="/members" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Members</a></mat-list-item>
       <mat-list-item><a routerLink="/lists" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Lists</a></mat-list-item>
       <mat-list-item><a routerLink="/message" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Message</a></mat-list-item>
       <mat-list-item><a *appHasRole="['Admin', 'Moderator']" routerLink="/admin" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Admin</a></mat-list-item>
     </mat-nav-list>
-  </mat-sidenav>
+  </mat-drawer>
 
-  <mat-sidenav-content>
-   <div class="container my-4 vh-100">
-    <router-outlet></router-outlet>
-   </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  <mat-drawer-content>
+    <section class="container-fluid my-4" style="min-height: 100%;">
+      <router-outlet></router-outlet>
+    </section>
+  </mat-drawer-content>
+</mat-drawer-container>
 

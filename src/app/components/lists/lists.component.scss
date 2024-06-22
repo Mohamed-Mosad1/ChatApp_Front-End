@@ -1,36 +1,85 @@
+// Variables
+$primary-color: #ffc107;
+$primary-color-hover: #e0a800;
+$text-color-dark: #000;
+$text-color-light: #fff;
 
-.changed-card {
-  margin-bottom: 15px;
+// Mixin for button styles
+@mixin btn-custom($bg-color, $border-color, $text-color, $hover-bg-color, $hover-border-color, $hover-text-color) {
+  background-color: $bg-color;
+  border-color: $border-color;
+  color: $text-color;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: $hover-bg-color;
+    border-color: $hover-border-color;
+    color: $hover-text-color;
+  }
 }
 
+.container {
+  padding: 20px;
+}
+
+.text-center {
+  margin-bottom: 20px;
+}
+
+.group {
+  display: flex;
+  justify-content: space-evenly;
+
+  .btn {
+    @include btn-custom($primary-color, $primary-color, $text-color-dark, $primary-color-hover, $primary-color-hover, $text-color-light);
+  }
+
+  .btn-active {
+    background-color: $primary-color-hover;
+    border-color: $primary-color-hover;
+    color: $text-color-light;
+  }
+}
+
+// Responsive styles
 @media (max-width: 576px) {
-  .btn-group {
-    display: flex;
+  .group {
     flex-direction: column;
     width: 100%;
+
+    .btn {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
   }
 
-  .btn-group .btn {
-    width: 100%;
+  .btn-custom {
     margin-bottom: 10px;
-  }
-
-  .btn-block {
     width: 100%;
   }
 }
 
-.form-inline .form-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.form-inline {
+  .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    label {
+      width: 100%;
+    }
+
+    input,
+    select {
+      width: 100%;
+    }
+  }
 }
 
-.form-inline .form-group label {
-  width: 100%;
-}
-
-.form-inline .form-group input,
-.form-inline .form-group select {
-  width: 100%;
+.pagination {
+  margin-top: 20px;
 }

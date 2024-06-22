@@ -23,6 +23,7 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMessages();
+
   }
 
   loadMessages() {
@@ -33,6 +34,8 @@ export class MessagesComponent implements OnInit {
           this.messages = res.result;
           this.pagination = res.pagination;
           this.loading = false;
+          console.log(this.messages);
+
         }
       },
       error: (err) => {
@@ -43,6 +46,8 @@ export class MessagesComponent implements OnInit {
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
+    console.log(this.pageNumber);
+
     this.loadMessages();
   }
 
@@ -52,6 +57,7 @@ export class MessagesComponent implements OnInit {
         let index = this.messages?.findIndex(m => m.id === id)
         if(index) this.messages?.splice(index, 1);
         this._toastrService.success('Message deleted successfully');
+        this.loadMessages();
       },
       error: (err) => {
         console.log(err);
