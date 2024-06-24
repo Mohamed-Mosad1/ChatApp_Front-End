@@ -15,16 +15,15 @@ export class MemberListComponent implements OnInit {
   Pagination!: Pagination;
   userParams!: UserParams;
   genderList = [
-    { key: 'male', value: 'Males' },
-    { key: 'female', value: 'Females' },
+    { key: 'Male', value: 'Males' },
+    { key: 'Female', value: 'Females' },
   ];
 
-  likedMembers: any[] = [];
   predicate: string = 'liked';
   pageNumber: number = 1;
   pageSize: number = 8;
-  pagination!: Pagination;
   likeUserNames: string[] = [];
+
 
   constructor(private _membersService: MembersService) {
     this.userParams = _membersService.getUserParams();
@@ -33,6 +32,15 @@ export class MemberListComponent implements OnInit {
   ngOnInit(): void {
     this.getMembers();
     this.loadLikes();
+    this._membersService.likedUserNames$.subscribe({
+      next: (res) => {
+        this.likeUserNames = res;
+        this.getMembers();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   getMembers() {
@@ -52,10 +60,8 @@ export class MemberListComponent implements OnInit {
   loadLikes() {
     this._membersService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe({
       next: (res) => {
-        this.likedMembers = res.result || [];
-        this.pagination = res.pagination;
-        const likedUserNames = this.likedMembers.map((member:any) => member.userName);
-        this.likeUserNames = likedUserNames
+        this.members = res.result;
+        this.Pagination = res.pagination;
       },
       error: (err) => {
         console.log(err);

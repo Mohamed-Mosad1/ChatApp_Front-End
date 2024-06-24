@@ -15,12 +15,21 @@ export class ListsComponent implements OnInit {
   pageNumber: number = 1;
   pageSize: number = 8;
   pagination!: Pagination;
-  likeUserNames!: string[] | undefined;
+  likeUserNames!: string[];
 
   constructor(private _memberService: MembersService) { }
 
   ngOnInit(): void {
     this.loadLikes();
+
+    this._memberService.likedUserNames$.subscribe({
+      next: (res) => {
+        this.likeUserNames = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   loadLikes() {
@@ -28,8 +37,6 @@ export class ListsComponent implements OnInit {
       next: (res) => {
           this.members = res.result;
           this.pagination = res.pagination;
-          const newArr = this.members?.map((member:any) => member.userName);
-          this.likeUserNames = newArr
       },
       error: (err) => {
         console.log(err);

@@ -26,7 +26,7 @@ export class MemberCardComponent {
 
   addOrRemoveLike(userName: string) {
     this._membersService.addOrRemoveLike(userName).subscribe({
-      next: (res: IBaseResponse) => {
+      next: (res: any) => {
         this.likeName = res.data.likedUserName;
         if (res.message.includes('unliked')) {
           const index = this.likedUserNames.indexOf(this.likeName);
@@ -44,7 +44,6 @@ export class MemberCardComponent {
       },
     });
   }
-
 
 
 

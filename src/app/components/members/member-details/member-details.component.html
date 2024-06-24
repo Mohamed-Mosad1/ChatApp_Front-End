@@ -4,9 +4,6 @@
       <img class="card-img-top img-thumbnail" [src]="member.photoUrl || './assets/default-user-img.png'"
         [alt]="member?.userName" />
       <div class="card-body">
-        <div class="text-center" *ngIf="(_presenceService.onlineUsers$ | async)?.includes(member.userName)">
-          <i class="fa fa-circle-dot me-1 text-success"></i> Online Now
-        </div>
         <div>
           <strong>Location:</strong>
           <p>{{member.city}}, {{member.country}}</p>
@@ -17,7 +14,10 @@
         </div>
         <div>
           <strong>Member Last Active:</strong>
-          <p>{{member.lastActive | timeago}}</p>
+          <p *ngIf="!(_presenceService.onlineUsers$ | async)?.includes(member.userName)">{{member.lastActive | timeago}}</p>
+          <p *ngIf="(_presenceService.onlineUsers$ | async)?.includes(member.userName)">
+            <i class="fa fa-circle-dot me-1 text-success"></i> Online Now
+          </p>
         </div>
         <div>
           <strong>Member Since:</strong>
@@ -25,7 +25,7 @@
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
-            <button class="btn btn-warning">Like</button>
+            <button routerLink="/lists" class="btn btn-warning">Like</button>
             <button (click)="selectTab(3)" class="btn btn-success">Message</button>
           </div>
         </div>

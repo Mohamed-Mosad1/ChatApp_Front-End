@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/assets/environments/environment';
 import { ILogin, IUser } from '../../models/auth';
-import { ReplaySubject, catchError, map, throwError } from 'rxjs';
+import { ReplaySubject, catchError, map, take, throwError } from 'rxjs';
 import { PresenceService } from './presence.service';
 
 @Injectable({
@@ -55,8 +55,12 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+    // Stop the Hub connection
     this._presenceService.stopHubConnection();
   }
+
+
+
 
   private handleError(message: string, error: any) {
     console.error(message, error);

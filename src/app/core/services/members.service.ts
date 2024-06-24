@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/assets/environments/environment';
 import { IUpdateMember, Member, Photo } from '../../models/member';
-import { BehaviorSubject, Observable, map, of, take } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, map, take } from 'rxjs';
 import { AuthService } from './auth.service';
 import { IUser } from 'src/app/models/auth';
 import { getPaginatedResult, getPaginationHeaders } from './PaginationHelper';
@@ -14,7 +14,8 @@ import { getPaginatedResult, getPaginationHeaders } from './PaginationHelper';
 export class MembersService {
 
   baseUrl = environment.baseUrl;
-  // memberCaching = new Map();
+  private currentLikedUserNames = new BehaviorSubject<string[]>([]);
+  likedUserNames$ = this.currentLikedUserNames.asObservable();
 
   user!: IUser;
   userParams!: UserParams;
@@ -34,10 +35,17 @@ export class MembersService {
     return this._httpClient.post(`${this.baseUrl}Likes/add-or-remove-like/${userName}`, {})
   }
 
+
   getLikes(predicate: string, pageNumber: number, pageSize: number) {
     let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('Predicate', predicate);
     return getPaginatedResult<Partial<Member[]>>(`${this.baseUrl}Likes/get-liked-users`, params, this._httpClient)
+    .pipe(
+      map((data:any) => {
+          this.currentLikedUserNames.next(data.result.map((member:any) => member.userName));
+          return data;
+        })
+      )
   }
 
   getUserParams() {
@@ -56,8 +64,6 @@ export class MembersService {
   getMembers(userParams: UserParams) {
     const lsUser = JSON.parse(localStorage.getItem('user')!);
     userParams.currentUserName = lsUser.userName;
-    // var response = this.memberCaching.get(Object.values(userParams).join(','));
-    // if (response) return of(response);
     let params = getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
     params = params.append('minAge', userParams.minAge.toString());
     params = params.append('maxAge', userParams.maxAge.toString());
@@ -65,24 +71,12 @@ export class MembersService {
     params = params.append('orderBy', userParams.orderBy);
     params = params.append('currentUserName', userParams.currentUserName);
 
-    return getPaginatedResult<Member[]>(this.baseUrl + 'Accounts/get-all-users',params, this._httpClient)
-    .pipe(
-      map((res) => {
-        // this.memberCaching.set(Object.values(userParams).join(','), res);
-        return res;
-      })
-    );
+    return getPaginatedResult<Member[]>(this.baseUrl + 'Accounts/get-all-users',params, this._httpClient);
   }
 
 
 
   getMemberByUserName(userName: string) {
-    // const member = [...this.memberCaching.values()]
-    // .reduce((previousValue, currentValue) => previousValue.concat(currentValue.result), [])
-    // .find((member: Member) => member.userName === userName);
-    // if(member) {
-      // return of(member);
-    // }
     return this._httpClient.get<Member>(this.baseUrl + 'Accounts/get-user-by-userName/' + userName);
   }
 

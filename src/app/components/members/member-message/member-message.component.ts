@@ -1,23 +1,26 @@
 import { ToastrService } from 'ngx-toastr';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
-import { Message } from 'src/app/models/messages';
+import { IMessage } from 'src/app/models/messages';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
+import { IUser } from 'src/app/models/auth';
 
 @Component({
   selector: 'app-member-message',
   templateUrl: './member-message.component.html',
   styleUrls: ['./member-message.component.scss'],
 })
-export class MemberMessageComponent implements OnInit {
+export class MemberMessageComponent implements OnInit, OnDestroy {
 
   @ViewChild('messageForm') messageForm!: NgForm;
-  messages: Message[] = [];
+  messages: IMessage[] = [];
   @Input() userName: string = '';
   messageContent: string = '';
-  currentUserName!: string;
+  currentUserName: string = '';
+  user!: IUser;
+  private messageSubscription!: Subscription
 
   constructor(
     public _messageService: MessageService,
@@ -28,10 +31,10 @@ export class MemberMessageComponent implements OnInit {
   ngOnInit(): void {
     this.getMessage();
 
-
     this._authService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => {
         if (user) {
+          this.user = user;
           this.currentUserName = user.userName;
         }
       },
@@ -39,8 +42,8 @@ export class MemberMessageComponent implements OnInit {
   }
 
   getMessage(){
-    this._messageService.messageRead$.subscribe({
-      next: (messages:any) => {
+    this.messageSubscription = this._messageService.messageRead$.subscribe({
+      next: (messages) => {
         this.messages = messages
       },
     })
@@ -52,9 +55,13 @@ export class MemberMessageComponent implements OnInit {
       return;
     }
     this._messageService.sendMessage(this.userName, this.messageContent).then(() =>{
-      this.getMessage();
       this.messageForm.reset();
     });
+  }
+
+  ngOnDestroy(): void {
+    this._messageService.stopHubConnection();
+    this.messageSubscription.unsubscribe();
   }
 
 

@@ -1,34 +1,38 @@
 <div class="card">
   <div class="card-body">
     <div *ngIf="messages?.length === 0">
-      No messages yet... say hi by using the message box below
+      <h4>
+        Looks like you haven’t chatted with {{currentUserName}} yet.
+      </h4>
+      <h5>Send your first message!</h5>
     </div>
-    
-    <ul *ngIf="messages.length > 0" class="list-unstyled chat">
+
+    <ul *ngIf="messages?.length" class="list-unstyled chat">
       <li *ngFor="let message of messages">
-        <div class="d-flex justify-content-between align-items-center p-2" [ngClass]="message.senderUserName === currentUserName ? 'flex-row-reverse' : 'flex-row bg-body-secondary rounded'">
+        <div class="d-flex justify-contnt-between align-items-center p-2"
+          [ngClass]="{'flex-row-reverse': message.senderUserName === currentUserName, 'flex-row bg-body-secondary rounded': message.senderUserName !== currentUserName}">
+
           <span class="chat-img">
             <img class="rounded-circle" [src]="message.senderProfilePictureUrl || './assets/default-user-img.png'"
               [alt]="message.senderUserName">
           </span>
-          <div class="chat-body">
-            <div class="header">
-              <small class="text-muted">
-                <span class="fas fa-clock mx-1">{{message.messageSend | timeago}}</span>
-                <span class="text-danger" *ngIf="!message.dateRead && message.senderUserName !== UserName">
-                  <span style="font-size: 10px; font-weight: bold;color: gray;">
-                    {{message.messageSend | timeago}} </span>
-                    <strong> (unread)</strong>
-                </span>
-                <span class="text-success mx-1" *ngIf="message.dateRead && message.senderUserName !== UserName">
-                  <span style="font-size: 10px; font-weight: bold;color: gray;">
-                    {{message.messageSend | timeago}} </span>
-                  <strong *ngIf="message.senderUserName === currentUserName"> (read {{ message.dateRead | timeago
-                    }})</strong>
-                </span>
-              </small>
-            </div>
-            <p class="my-1" [class.text-end]="message.senderUserName !== currentUserName">{{message.content}}</p>
+          <div class="chat-body mx-2">
+              <div class="text-muted">
+                <div class="fw-bold d-flex align-items-center"
+                  [ngClass]="message.senderUserName === currentUserName ? 'flex-row-reverse ms-1' : 'flex-row me-1'">
+                  <i class="fas fa-clock">{{ message.messageSend | timeago }}</i>
+                  <span class="mx-1 small" style="color: gray;">{{ message.messageSend | timeago }}</span>
+                  <span *ngIf="!message.dateRead && message.senderUserName === currentUserName"
+                    class="text-danger mx-1 fw-bold">(unread)</span>
+                  <span
+                    *ngIf="message.dateRead && message.senderUserName === currentUserName"
+                    class="text-success mx-1 small">(read {{ message.dateRead | timeago }})</span>
+                </div>
+              </div>
+            <p class="my-1"
+              [ngClass]="{'text-end': message.senderUserName === currentUserName, 'text-start': message.senderUserName !== currentUserName}">
+              {{ message.content }}
+            </p>
           </div>
         </div>
       </li>
@@ -42,8 +46,8 @@
           class="form-control input-sm" required>
         <div class="input-group-append">
           <button [disabled]="!messageForm.valid" class="btn btn-warning mx-2" type="submit">
-            <i class="fas fa-paper-plane"></i>
-            Send</button>
+            <i class="fas fa-paper-plane"></i> Send
+          </button>
         </div>
       </div>
     </form>

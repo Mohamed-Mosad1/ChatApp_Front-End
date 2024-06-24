@@ -10,7 +10,7 @@
     </div>
     <ul *ngIf="(_authService.currentUser$ | async)" class="nav m-auto d-flex display-none-sc">
       <li><a routerLink="/members" routerLinkActive="text-white" class="nav-link text-warning">Members</a></li>
-      <li><a routerLink="/lists" routerLinkActive="text-white" class="nav-link text-warning">Lists</a></li>
+      <li><a routerLink="/lists" routerLinkActive="text-white" class="nav-link text-warning">Likes</a></li>
       <li><a routerLink="/message" routerLinkActive="text-white" class="nav-link text-warning">Message</a></li>
       <li><a *appHasRole="['Admin', 'Moderator']" routerLink="/admin" routerLinkActive="text-white" class="nav-link text-warning">Admin</a></li>
     </ul>
@@ -43,14 +43,14 @@
   <mat-drawer #drawer mode="over" class="sidenav bg-dark-subtle fw-bold">
     <mat-nav-list>
       <mat-list-item><a routerLink="/members" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Members</a></mat-list-item>
-      <mat-list-item><a routerLink="/lists" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Lists</a></mat-list-item>
+      <mat-list-item><a routerLink="/lists" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Likes</a></mat-list-item>
       <mat-list-item><a routerLink="/message" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Message</a></mat-list-item>
       <mat-list-item><a *appHasRole="['Admin', 'Moderator']" routerLink="/admin" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Admin</a></mat-list-item>
     </mat-nav-list>
   </mat-drawer>
 
   <mat-drawer-content>
-    <section class="container-fluid my-4" style="min-height: 100%;">
+    <section class="container-fluid p-4 my-4" style="min-height: 100%;">
       <router-outlet></router-outlet>
     </section>
   </mat-drawer-content>

@@ -3,5 +3,5 @@ export interface IBaseResponse {
     isSuccess: boolean
     message: string
     errors: any[]
-    data: any
+    data: string[]
 }

@@ -8,7 +8,7 @@ import { MessageService } from 'src/app/core/services/message.service';
 import { PresenceService } from 'src/app/core/services/presence.service';
 import { IUser } from 'src/app/models/auth';
 import { Member } from 'src/app/models/member';
-import { Message } from 'src/app/models/messages';
+import { IMessage } from 'src/app/models/messages';
 import { environment } from 'src/assets/environments/environment';
 
 @Component({
@@ -22,7 +22,7 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
   member!: Member;
   galleryImages!: GalleryItem[];
   activeTab!: TabDirective;
-  messages: Message[] = [];
+  messages: IMessage[] = [];
   user!: IUser;
   baseServerUrl: string = environment.baseServerUrl
 
@@ -30,7 +30,7 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
     private _activatedRoute: ActivatedRoute,
     private _messagesService: MessageService,
     public _presenceService: PresenceService,
-    private _authService: AuthService
+    private _authService: AuthService,
   ) {
     _authService.currentUser$.pipe(take(1)).subscribe((user) => {
       if (user) {
@@ -69,22 +69,10 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
     return imageUrls;
   }
 
-  loadMessages() {
-    this._messagesService.getMesageIsRead(this.member.userName).subscribe({
-      next: (res) => {
-        this.messages = res;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-  }
-
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
       this._messagesService.createHubConnection(this.user, this.member.userName);
-      // this.loadMessages();
     } else {
       this._messagesService.stopHubConnection();
     }

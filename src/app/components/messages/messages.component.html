@@ -33,18 +33,16 @@
         <tr *ngFor="let message of messages"
             [queryParams]='{tab: 3}'>
           <td>{{message.content}}</td>
-          <td  style="cursor: pointer" [routerLink]="container === 'Outbox' ? '/member/' + message.recipientUserName : '/member/' + message.senderUserName">
+          <td  style="cursor: pointer" [queryParams]="{tab: 3}" [routerLink]="container === 'Outbox' ? '/member/' + message.recipientUserName : '/member/' + message.senderUserName">
             <div *ngIf="container === 'Outbox'">
-              <img class="img-circle rounded-circle mx-2" src="./assets/user-loading.gif" [hidden]="!loading">
-              <img [hidden]="loading" class="img-circle rounded-circle mx-2"
+              <img class="img-circle object-fit-cover rounded-circle mx-2"
                    [src]="message.senderProfilePictureUrl || './assets/default-user-img.png'" [alt]="message.senderUserName">
-              <strong class="mx-2" [hidden]="loading">{{message.senderUserName | titlecase}}</strong>
+              <strong class="mx-2">{{message.senderUserName | titlecase}}</strong>
             </div>
-            <div *ngIf="container === 'Inbox'">
-              <img class="img-circle rounded-circle mx-2" src="./assets/user-loading.gif" [hidden]="!loading">
-              <img [hidden]="loading" class="img-circle rounded-circle mx-2"
+            <div *ngIf="container !== 'Outbox'">
+              <img class="img-circle object-fit-cover rounded-circle mx-2"
                    [src]="message.senderProfilePictureUrl || './assets/default-user-img.png'" [alt]="message.senderUserName">
-              <strong [hidden]="loading">{{message.senderUserName | titlecase}}</strong>
+              <strong>{{message.senderUserName | titlecase}}</strong>
             </div>
           </td>
           <td>{{message.messageSend | timeago }}</td>
@@ -58,7 +56,7 @@
     </table>
   </div>
 
-  <div class="d-flex justify-content-center" *ngIf="!loading && pagination.totalItems > 7">
+  <div class="d-flex justify-content-center" *ngIf="pagination?.totalItems > 7">
     <pagination
       [boundaryLinks]="true"
       [totalItems]="pagination.totalItems"

@@ -23,7 +23,7 @@ export class PresenceService {
 
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(`${this.hubUrl}presence`, {
-        accessTokenFactory: () => user.token,
+        accessTokenFactory: () => user.token
       }).withAutomaticReconnect().build();
 
     this.hubConnection
@@ -45,6 +45,8 @@ export class PresenceService {
     this.hubConnection.onclose((error) => {
       if (error) {
         this.logError('Connection closed with error', error);
+        console.log(error);
+
       }
     });
   }
@@ -58,6 +60,10 @@ export class PresenceService {
           this.hubConnection = null;
         });
     }
+  }
+
+  updateOnlineUsers(updatedUsers: string[]) {
+    this.onlineUsersSource.next(updatedUsers);
   }
 
   private logError(message: string, error: any): void {
