@@ -1,16 +1,8 @@
 <div class="mb-3">
-  <input
-    [formControl]="ngControl.control"
-    [placeholder]="label"
-    [type]="type"
-    class="form-control"
-    [class.is-invalid]="ngControl.invalid && ngControl.touched"
-    [class.is-valid]="ngControl.valid && ngControl.touched"
-    (blur)="onTouched()"
-  />
-
-  <small *ngIf="ngControl.errors && ngControl.touched" class="form-text text-danger">
+  <input [formControl]="ngControl.control" [placeholder]="label" [type]="type" class="form-control"
+    [class.is-invalid]="ngControl.invalid && ngControl.dirty"
+    [class.is-valid]="ngControl.valid && ngControl.dirty" (blur)="onTouched()" />
+  <small *ngIf="ngControl.errors && ngControl.dirty" class="form-text text-danger">
     {{ getErrorMessage() }}
   </small>
-
 </div>

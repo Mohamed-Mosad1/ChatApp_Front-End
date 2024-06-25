@@ -1,9 +1,5 @@
 import { Component, Input, Self } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormControl,
-  NgControl,
-} from '@angular/forms';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'app-text-input',
@@ -16,12 +12,13 @@ export class TextInputComponent implements ControlValueAccessor {
 
   errorMessages: { [key: string]: string } = {
     required: '* {{label}} is required!',
-    minlength:'* {{label}} must be at least {{requiredLength}} characters long.',
-    pattern: '* Invalid {{label}} format.',
+    minlength:
+      '* {{label}} must be at least {{requiredLength}} characters long.',
     emailPattern: '* Email must be a valid format (e.g., example@domain.com).',
-    passwordPattern:'* Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
+    passwordPattern:
+      '* Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
+    isMatching: '* Password Not Matched',
   };
-
 
   constructor(@Self() public ngControl: NgControl) {
     if (ngControl) {
@@ -61,7 +58,7 @@ export class TextInputComponent implements ControlValueAccessor {
       if (this.label === 'Email' && this.ngControl.errors['pattern']) {
         return this.errorMessages['emailPattern'];
       }
-      if (this.label === 'Password' && this.ngControl.errors['pattern']) {
+      if ((this.label === 'Password' || this.label === 'New Password') && this.ngControl.errors['pattern']) {
         return this.errorMessages['passwordPattern'];
       }
     }

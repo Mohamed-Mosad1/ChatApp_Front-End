@@ -13,7 +13,7 @@
           [ngClass]="{'flex-row-reverse': message.senderUserName === currentUserName, 'flex-row bg-body-secondary rounded': message.senderUserName !== currentUserName}">
 
           <span class="chat-img">
-            <img class="rounded-circle" [src]="message.senderProfilePictureUrl || './assets/default-user-img.png'"
+            <img class="rounded-circle" [src]="message.senderProfilePictureUrl || './assets/images/default-user-img.png'"
               [alt]="message.senderUserName">
           </span>
           <div class="chat-body mx-2">

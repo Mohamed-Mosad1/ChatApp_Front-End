@@ -5,6 +5,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { GalleryComponent } from '@daelmaak/ngx-gallery';
 import { TimeagoModule } from 'ngx-timeago';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -13,7 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { GalleryComponent } from '@daelmaak/ngx-gallery';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [],
@@ -27,12 +29,14 @@ import { GalleryComponent } from '@daelmaak/ngx-gallery';
     MatIconModule,
     MatListModule,
     MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
     TabsModule.forRoot(),
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
     ButtonsModule.forRoot(),
     TimeagoModule.forRoot(),
-    ModalModule.forRoot(),
+    ModalModule.forRoot()
   ],
   exports: [
     MatToolbarModule,
@@ -41,6 +45,8 @@ import { GalleryComponent } from '@daelmaak/ngx-gallery';
     MatIconModule,
     MatListModule,
     MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
     TabsModule,
     GalleryComponent,
     NgxSpinnerModule,
@@ -48,7 +54,7 @@ import { GalleryComponent } from '@daelmaak/ngx-gallery';
     PaginationModule,
     ButtonsModule,
     TimeagoModule,
-    ModalModule,
+    ModalModule
   ],
 })
 export class SharedModule {}

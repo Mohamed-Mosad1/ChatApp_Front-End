@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/assets/environments/environment';
-import { ILogin, IUser } from '../../models/auth';
+import { ILogin, IResetPassword, IUser } from '../../models/auth';
 import { ReplaySubject, catchError, map, take, throwError } from 'rxjs';
 import { PresenceService } from './presence.service';
 
@@ -13,7 +13,10 @@ export class AuthService {
   private currentUserSource = new ReplaySubject<IUser | null>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private _httpClient: HttpClient, private _presenceService: PresenceService) {}
+  constructor(
+    private _httpClient: HttpClient,
+    private _presenceService: PresenceService
+  ) {}
 
   login(model: ILogin) {
     return this._httpClient
@@ -24,11 +27,9 @@ export class AuthService {
             this.setCurrentUser(user);
             this._presenceService.createHubConnection(user);
           }
-        }),
-        catchError((error) => this.handleError('Login failed', error))
+        })
       );
   }
-
 
   register(model: IUser) {
     return this._httpClient
@@ -39,9 +40,16 @@ export class AuthService {
             this.setCurrentUser(user);
             this._presenceService.createHubConnection(user);
           }
-        }),
-        catchError((error) => this.handleError('Registration failed', error))
+        })
       );
+  }
+
+  sendResetPasswordLink(email: string) {
+    return this._httpClient.post(this.baseUrl + 'Accounts/send-reset-password-email/' + email, {})
+  }
+
+  resetPassword(resetPasswordObj : IResetPassword){
+    return this._httpClient.post(this.baseUrl + 'Accounts/reset-password', resetPasswordObj)
   }
 
   setCurrentUser(user: IUser) {
@@ -59,9 +67,6 @@ export class AuthService {
     this._presenceService.stopHubConnection();
   }
 
-
-
-
   private handleError(message: string, error: any) {
     console.error(message, error);
     return throwError(() => new Error(`${message}, please try again.`));
@@ -70,5 +75,4 @@ export class AuthService {
   getDecodedToken(token: string) {
     return JSON.parse(atob(token.split('.')[1]));
   }
-
 }

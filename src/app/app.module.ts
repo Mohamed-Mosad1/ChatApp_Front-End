@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 import { MemberListComponent } from './components/members/member-list/member-list.component';
 import { MemberDetailsComponent } from './components/members/member-details/member-details.component';
 import { ListsComponent } from './components/lists/lists.component';
@@ -28,7 +28,8 @@ import { AdminPanelComponent } from './Admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directive/has-role.directive';
 import { AdminManagementComponent } from './Admin/admin-management/admin-management.component';
 import { RolesModalsComponent } from './_modals/roles-modals/roles-modals.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { LoginComponent } from './components/login/login.component';
     AdminManagementComponent,
     RolesModalsComponent,
     LoginComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,11 +63,11 @@ import { LoginComponent } from './components/login/login.component';
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
-    SharedModule
+    SharedModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

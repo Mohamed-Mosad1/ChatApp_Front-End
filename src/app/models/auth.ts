@@ -11,3 +11,10 @@ export interface IUser {
   photoUrl: string;
   roles: string[];
 }
+
+export interface IResetPassword {
+  email: string
+  emailToken: string
+  newPassword: string
+  confirmPassword: string
+}

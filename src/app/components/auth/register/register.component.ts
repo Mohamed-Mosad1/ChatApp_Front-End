@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -16,7 +17,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup = new FormGroup({});
+  registerForm!: FormGroup;
   maxDate: Date = new Date();
 
   constructor(
@@ -34,21 +35,49 @@ export class RegisterComponent implements OnInit {
   private initializeForm() {
     this.registerForm = this._formBuilder.group({
       userName: ['', [Validators.required, Validators.minLength(3)]],
-      gender: ['male'],
-      knownAs: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      gender: ['Male'],
+      knownAs: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(20),
+        ],
+      ],
       dateOfBirth: ['', [Validators.required]],
       city: ['', [Validators.required]],
       country: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
-      password: ['', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$')]],
-      confirmPassword: ['', [Validators.required, this.matchValues('password')]],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+          ),
+        ],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$'
+          ),
+        ],
+      ],
+      confirmPassword: [
+        '',
+        [Validators.required, this.matchValues('password')],
+      ],
     });
   }
 
   matchValues(matchTo: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const matchingControl = control?.parent?.get(matchTo);
-      return control?.value === matchingControl?.value ? null : { isMatching: true };
+      return control?.value === matchingControl?.value
+        ? null
+        : { isMatching: true };
     };
   }
 
@@ -63,20 +92,20 @@ export class RegisterComponent implements OnInit {
         this._toastrService.success('Registered successfully');
         this._router.navigate(['/members']);
       },
-      error: (err) => {
-        const errorMessage = this.extractErrorMessage(err);
-        this._toastrService.error(errorMessage);
-        console.error(err);
+      error: (err: HttpErrorResponse) => {
+        this.handleErrorResponse(err);
       },
     });
   }
 
-  private extractErrorMessage(err: any): string {
-    if (err.error && Array.isArray(err.error) && err.error.length > 0) {
-      return err.error[0];
+  private handleErrorResponse(err: HttpErrorResponse): void {
+    if (err.error && err.error.errors && Array.isArray(err.error.errors)) {
+      err.error.errors.forEach((error: string) => {
+        this._toastrService.error(error);
+      });
+    } else if (err.error && err.error.message) {
+      this._toastrService.error(err.error.message);
     }
-    return 'An unexpected error occurred';
+    this._toastrService.error('An unexpected error occurred');
   }
-
-
 }

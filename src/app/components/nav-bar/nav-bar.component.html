@@ -5,7 +5,7 @@
         <mat-icon>menu</mat-icon>
       </button>
       <a routerLink="" class="d-flex align-items-center text-white text-decoration-none">
-        <img src="./assets/chat-app-logo.avif" class="me-2" width="40" height="32" alt="Chat App Logo">
+        <img src="./assets/images/chat-app-logo.avif" class="me-2" width="40" height="32" alt="Chat App Logo">
       </a>
     </div>
     <ul *ngIf="(_authService.currentUser$ | async)" class="nav m-auto d-flex display-none-sc">
@@ -16,7 +16,7 @@
     </ul>
     <div *ngIf="(_authService.currentUser$ | async) as user">
       <button mat-button [matMenuTriggerFor]="userMenu">
-        <img [src]="user.photoUrl === baseServerUrl || user.photoUrl === null ? './assets/default-user-img.png' : user.photoUrl"
+        <img [src]="user.photoUrl === baseServerUrl || user.photoUrl === null ? './assets/images/default-user-img.png' : user.photoUrl"
           class="object-fit-cover rounded-circle img-profile" [alt]="user.userName">
         <span class="ms-2 bg-light fw-bold rounded-pill px-2">Welcome, {{ user.userName | titlecase }}</span>
       </button>

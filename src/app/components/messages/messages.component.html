@@ -36,12 +36,12 @@
           <td  style="cursor: pointer" [queryParams]="{tab: 3}" [routerLink]="container === 'Outbox' ? '/member/' + message.recipientUserName : '/member/' + message.senderUserName">
             <div *ngIf="container === 'Outbox'">
               <img class="img-circle object-fit-cover rounded-circle mx-2"
-                   [src]="message.senderProfilePictureUrl || './assets/default-user-img.png'" [alt]="message.senderUserName">
+                   [src]="message.senderProfilePictureUrl || './assets/images/default-user-img.png'" [alt]="message.senderUserName">
               <strong class="mx-2">{{message.senderUserName | titlecase}}</strong>
             </div>
             <div *ngIf="container !== 'Outbox'">
               <img class="img-circle object-fit-cover rounded-circle mx-2"
-                   [src]="message.senderProfilePictureUrl || './assets/default-user-img.png'" [alt]="message.senderUserName">
+                   [src]="message.senderProfilePictureUrl || './assets/images/default-user-img.png'" [alt]="message.senderUserName">
               <strong>{{message.senderUserName | titlecase}}</strong>
             </div>
           </td>

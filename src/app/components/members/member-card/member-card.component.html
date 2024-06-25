@@ -1,6 +1,9 @@
 <div class="card overflow-hidden" *ngIf="member">
   <div class="card-image-wrapper">
-    <img [routerLink]="['/member/', member.userName]" style="cursor: pointer;" [queryParams]="{tab: 3}" class="card-img-top" [src]="member.photoUrl == baseServerUrl ? './assets/default-user-img.png' : member.photoUrl" [alt]="member.userName" />
+    <img [routerLink]="['/member/', member.userName]" style="cursor: pointer;" [queryParams]="{tab: 3}"
+      class="card-img-top"
+      [src]="member.photoUrl == baseServerUrl ? './assets/images/default-user-img.png' : member.photoUrl"
+      [alt]="member.userName" />
 
   </div>
   <div class="card-body">
@@ -10,13 +13,15 @@
           <i class="fas fa-user"></i>
         </button>
       </li>
-      <li class="list-inline-item" >
-        <button type="button" [class.text-danger]="likedUserNames.includes(member.userName)" (click)="addOrRemoveLike(member.userName)" class="btn btn-warning">
+      <li class="list-inline-item">
+        <button type="button" [class.text-danger]="likedUserNames.includes(member.userName)"
+          (click)="addOrRemoveLike(member.userName)" class="btn btn-warning">
           <i class="fas fa-heart"></i>
         </button>
       </li>
       <li class="list-inline-item">
-        <button [routerLink]="['/member/', member.userName]" [queryParams]="{tab: 3}" type="button" class="btn btn-warning">
+        <button [routerLink]="['/member/', member.userName]" [queryParams]="{tab: 3}" type="button"
+          class="btn btn-warning">
           <i class="fas fa-envelope"></i>
         </button>
       </li>
