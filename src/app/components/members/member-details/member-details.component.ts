@@ -9,7 +9,7 @@ import { PresenceService } from 'src/app/core/services/presence.service';
 import { IUser } from 'src/app/models/auth';
 import { Member } from 'src/app/models/member';
 import { IMessage } from 'src/app/models/messages';
-import { environment } from 'src/assets/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-member-details',
@@ -24,13 +24,13 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
   activeTab!: TabDirective;
   messages: IMessage[] = [];
   user!: IUser;
-  baseServerUrl: string = environment.baseServerUrl
+  baseServerUrl: string = environment.baseServerUrl;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _messagesService: MessageService,
     public _presenceService: PresenceService,
-    private _authService: AuthService,
+    private _authService: AuthService
   ) {
     _authService.currentUser$.pipe(take(1)).subscribe((user) => {
       if (user) {
@@ -47,7 +47,7 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.log(err);
-      }
+      },
     });
     this._activatedRoute.queryParams.subscribe({
       next: (params) => {
@@ -72,7 +72,10 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
-      this._messagesService.createHubConnection(this.user, this.member.userName);
+      this._messagesService.createHubConnection(
+        this.user,
+        this.member.userName
+      );
     } else {
       this._messagesService.stopHubConnection();
     }

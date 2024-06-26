@@ -1,15 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { matchValues } from 'src/app/models/password.validator';
 
 @Component({
   selector: 'app-register',
@@ -34,7 +29,14 @@ export class RegisterComponent implements OnInit {
 
   private initializeForm() {
     this.registerForm = this._formBuilder.group({
-      userName: ['', [Validators.required, Validators.minLength(3)]],
+      userName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(20),
+        ],
+      ],
       gender: ['Male'],
       knownAs: [
         '',
@@ -45,8 +47,8 @@ export class RegisterComponent implements OnInit {
         ],
       ],
       dateOfBirth: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      country: ['', [Validators.required]],
+      city: ['', [Validators.required, Validators.maxLength(20)]],
+      country: ['', [Validators.required, Validators.maxLength(20)]],
       email: [
         '',
         [
@@ -65,20 +67,12 @@ export class RegisterComponent implements OnInit {
           ),
         ],
       ],
-      confirmPassword: [
-        '',
-        [Validators.required, this.matchValues('password')],
-      ],
+      confirmPassword: ['', [Validators.required, matchValues('password')]],
     });
-  }
 
-  matchValues(matchTo: string): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const matchingControl = control?.parent?.get(matchTo);
-      return control?.value === matchingControl?.value
-        ? null
-        : { isMatching: true };
-    };
+    this.registerForm.get('password')?.valueChanges.subscribe(() => {
+      this.registerForm.get('confirmPassword')?.updateValueAndValidity();
+    });
   }
 
   register() {
@@ -88,7 +82,7 @@ export class RegisterComponent implements OnInit {
     }
 
     this._authService.register(this.registerForm.value).subscribe({
-      next: (user) => {
+      next: () => {
         this._toastrService.success('Registered successfully');
         this._router.navigate(['/members']);
       },
@@ -105,7 +99,8 @@ export class RegisterComponent implements OnInit {
       });
     } else if (err.error && err.error.message) {
       this._toastrService.error(err.error.message);
+    } else {
+      this._toastrService.error('An unexpected error occurred');
     }
-    this._toastrService.error('An unexpected error occurred');
   }
 }

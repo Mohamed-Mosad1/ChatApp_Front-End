@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/assets/environments/environment';
+import { environment } from 'src/environments/environment';
 import { getPaginatedResult, getPaginationHeaders } from './PaginationHelper';
 import { IMessage } from 'src/app/models/messages';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
@@ -65,7 +65,8 @@ export class MessageService {
   }
 
   async sendMessage(userName: string, content: string) {
-    return this.hubConnection.invoke('SendMessage', { recipientUsername: userName, content })
+    return this.hubConnection
+      .invoke('SendMessage', { recipientUsername: userName, content })
       .catch((error) => console.log(error));
   }
 

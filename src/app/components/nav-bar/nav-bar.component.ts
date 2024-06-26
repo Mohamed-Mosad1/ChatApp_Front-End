@@ -3,7 +3,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from 'src/assets/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-nav-bar',

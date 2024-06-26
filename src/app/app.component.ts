@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/assets/environments/environment';
+import { environment } from 'src/environments/environment';
 import { AuthService } from './core/services/auth.service';
 import { IUser } from './models/auth';
 import { PresenceService } from './core/services/presence.service';
@@ -14,7 +14,10 @@ export class AppComponent implements OnInit {
 
   baseUrl: string = environment.baseUrl;
 
-  constructor(private _authService: AuthService, private _presenceService: PresenceService) {}
+  constructor(
+    private _authService: AuthService,
+    private _presenceService: PresenceService
+  ) {}
 
   ngOnInit(): void {
     this.setCurrentUser();

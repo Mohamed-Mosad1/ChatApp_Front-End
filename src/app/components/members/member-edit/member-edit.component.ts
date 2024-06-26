@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { MembersService } from 'src/app/core/services/members.service';
 import { IUser } from 'src/app/models/auth';
 import { Member } from 'src/app/models/member';
-import { environment } from 'src/assets/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-member-edit',
@@ -17,9 +17,11 @@ export class MemberEditComponent implements OnInit {
   user!: IUser;
   member!: Member;
   editMemberForm!: FormGroup;
-  baseServerUrl : string = environment.baseServerUrl;
-  @HostListener('window:beforeunload', ['$event']) unLoadNotification($event: any) {
-    if(this.editMemberForm.dirty){
+  baseServerUrl: string = environment.baseServerUrl;
+  @HostListener('window:beforeunload', ['$event']) unLoadNotification(
+    $event: any
+  ) {
+    if (this.editMemberForm.dirty) {
       $event.returnValue = true;
     }
   }
@@ -47,7 +49,7 @@ export class MemberEditComponent implements OnInit {
       city: ['', [Validators.required]],
       country: ['', [Validators.required]],
       interests: ['', [Validators.required]],
-    })
+    });
 
     this.loadMember();
   }
@@ -62,8 +64,8 @@ export class MemberEditComponent implements OnInit {
             lookingFor: this.member.lookingFor,
             city: this.member.city,
             country: this.member.country,
-            interests: this.member.interests
-          })
+            interests: this.member.interests,
+          });
         }
       },
       error: (err) => {

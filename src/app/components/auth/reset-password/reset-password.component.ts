@@ -1,15 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { IResetPassword } from 'src/app/models/auth';
+import { matchValues } from 'src/app/models/password.validator';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,7 +16,7 @@ export class ResetPasswordComponent implements OnInit {
   resetPasswordForm!: FormGroup;
   emailToReset: string = '';
   emailToken: string = '';
-  resetPasswordObj!: IResetPassword;
+  resetPasswordObj!: IResetPassword
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -35,14 +31,14 @@ export class ResetPasswordComponent implements OnInit {
 
     this._activatedRoute.queryParams.subscribe((params) => {
       this.emailToReset = params['email'];
-      let urlToken = params['code'];
-      this.emailToken = urlToken ? urlToken.replace(/ /g, "+") : '';
+      let urlToken = params['token'];
+      this.emailToken = urlToken ? urlToken.replace(/ /g, '+') : '';
       if (!this.emailToReset || !this.emailToken) {
         this._toastrService.error('Invalid reset link', 'Error');
         this._router.navigate(['/login']);
       }
-      console.log(this.emailToReset, this.emailToken);
     });
+
   }
 
   initializeForm() {
@@ -56,46 +52,49 @@ export class ResetPasswordComponent implements OnInit {
           ),
         ],
       ],
-      confirmPassword: [
-        '',
-        [Validators.required, this.matchValues('newPassword')],
-      ],
+      confirmPassword: ['', [Validators.required, matchValues('newPassword')]],
+    });
+
+    this.resetPasswordForm.get('password')?.valueChanges.subscribe(() => {
+      this.resetPasswordForm.get('confirmPassword')?.updateValueAndValidity();
     });
   }
 
-  matchValues(matchTo: string): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const matchingControl = control?.parent?.get(matchTo);
-      return control?.value === matchingControl?.value
-        ? null
-        : { isMatching: true };
-    };
-  }
 
   OnSubmitResetForm() {
-    if(this.resetPasswordForm.valid){
-      this.resetPasswordObj = {
-        email: this.emailToReset,
-        newPassword: this.resetPasswordForm.value.newPassword,
-        confirmPassword: this.resetPasswordForm.value.confirmPassword,
-        emailToken: this.emailToken
-      };
+    if (this.resetPasswordForm.invalid) {
+      this._toastrService.error('Please fill out the form correctly.');
+    }
 
-      this._authService.resetPassword(this.resetPasswordObj).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.resetPasswordForm.reset();
-          this._router.navigate(['/login']);
-        },
-        error: (err) => {
-          console.log(err);
-        },
+    this.resetPasswordObj = {
+      email: this.emailToReset,
+      newPassword: this.resetPasswordForm.value.newPassword,
+      confirmPassword: this.resetPasswordForm.value.confirmPassword,
+      emailToken: this.emailToken,
+    };
+
+    this._authService.resetPassword(this.resetPasswordObj).subscribe({
+      next: (res) => {
+        this._toastrService.success('Password Reset Successful');
+        this._router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.handleErrorResponse(err);
+      },
+    });
+  }
+
+  private handleErrorResponse(err: HttpErrorResponse): void {
+    if (err.error && err.error.errors && Array.isArray(err.error.errors)) {
+      err.error.errors.forEach((error: string) => {
+        this._toastrService.error(error);
       });
-
-      return;
-    }else{
-
-      return;
+    } else {
+      this._toastrService.error(
+        err.status !== 200 && err.status === 400
+          ? err.error
+          : 'An unexpected error occurred'
+      );
     }
   }
 }

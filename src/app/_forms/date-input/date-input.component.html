@@ -1,13 +1,17 @@
-<div class="mb-3">
-  <input
-    class="form-control"
-    [formControl]="ngControl.control"
-    [placeholder]="label"
-    [class.is-invalid]="ngControl.invalid && ngControl.touched"
-    [class.is-valid]="ngControl.valid && ngControl.touched"
-    bsDatepicker
-    [bsConfig]="bsConfig"
-    [maxDate]="maxDate"
-    style="cursor: pointer;"
-  />
+<div class="mb-4 w-100">
+    <mat-form-field>
+      <mat-label>{{label}}</mat-label>
+      <input matInput
+      [max]="maxDate"
+      [matDatepicker]="picker"
+      [placeholder]="label"
+      [id]="label"
+      [formControl]="ngControl.control"
+        required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker color="warn"></mat-datepicker>
+        <mat-error *ngIf="ngControl.errors && ngControl.touched">
+          {{ getErrorMessage() }}
+        </mat-error>
+    </mat-form-field>
 </div>

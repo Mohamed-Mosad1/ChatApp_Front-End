@@ -1,8 +1,23 @@
-<div class="mb-3">
-  <input [formControl]="ngControl.control" [placeholder]="label" [type]="type" class="form-control"
-    [class.is-invalid]="ngControl.invalid && ngControl.dirty"
-    [class.is-valid]="ngControl.valid && ngControl.dirty" (blur)="onTouched()" />
-  <small *ngIf="ngControl.errors && ngControl.dirty" class="form-text text-danger">
-    {{ getErrorMessage() }}
-  </small>
+<div class="w-100" [ngClass]="label === 'Email to reset password' ? 'mb-0' : 'mb-4'">
+  <mat-form-field>
+    <mat-label>{{label}}</mat-label>
+    <input matInput
+    [placeholder]="label"
+    [id]="label"
+    [name]="label"
+    [formControl]="ngControl.control"
+    [type]="type === 'password' ? (hide ? 'password' : 'text') : type"
+      required>
+    <button type="button" mat-icon-button matSuffix *ngIf="type === 'password'" (click)="hide = !hide"
+      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    <mat-icon *ngIf="label === 'User Name' || label === 'UserName or Email' || label === 'KnownAs'"
+      matPrefix>person</mat-icon>
+    <mat-icon *ngIf="type === 'email'" matPrefix>email</mat-icon>
+    <mat-icon *ngIf="type === 'password'" matPrefix>security</mat-icon>
+    <mat-icon *ngIf="label === 'City'" matPrefix>my_location</mat-icon>
+    <mat-icon *ngIf="label === 'Country'" matPrefix>location_on</mat-icon>
+    <mat-error *ngIf="ngControl.errors">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
 </div>

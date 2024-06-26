@@ -16,6 +16,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core'
 
 @NgModule({
   declarations: [],
@@ -31,6 +34,8 @@ import { MatInputModule } from '@angular/material/input';
     MatMenuModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     TabsModule.forRoot(),
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
@@ -47,6 +52,8 @@ import { MatInputModule } from '@angular/material/input';
     MatMenuModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     TabsModule,
     GalleryComponent,
     NgxSpinnerModule,
@@ -55,6 +62,9 @@ import { MatInputModule } from '@angular/material/input';
     ButtonsModule,
     TimeagoModule,
     ModalModule
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
   ],
 })
 export class SharedModule {}

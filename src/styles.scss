@@ -41,10 +41,6 @@ $client-theme: mat.define-light-theme((
 /* Importing Bootstrap SCSS file. */
 @import "./node_modules/bootstrap/scss/bootstrap";
 
-/* Importing Datepicker SCSS file. */
-@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
-
-
 .tab-panel {
     border: 1px solid #ddd;
     padding: 10px;

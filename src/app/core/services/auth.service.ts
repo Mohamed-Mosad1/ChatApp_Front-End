@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/assets/environments/environment';
+import { environment } from 'src/environments/environment';
 import { ILogin, IResetPassword, IUser } from '../../models/auth';
-import { ReplaySubject, catchError, map, take, throwError } from 'rxjs';
+import { ReplaySubject, map, throwError } from 'rxjs';
 import { PresenceService } from './presence.service';
 
 @Injectable({
@@ -45,11 +45,17 @@ export class AuthService {
   }
 
   sendResetPasswordLink(email: string) {
-    return this._httpClient.post(this.baseUrl + 'Accounts/send-reset-password-email/' + email, {})
+    return this._httpClient.post(
+      this.baseUrl + 'Accounts/send-reset-password-email/' + email,
+      {}
+    );
   }
 
-  resetPassword(resetPasswordObj : IResetPassword){
-    return this._httpClient.post(this.baseUrl + 'Accounts/reset-password', resetPasswordObj)
+  resetPassword(resetPasswordObj: IResetPassword) {
+    return this._httpClient.post(
+      this.baseUrl + 'Accounts/reset-password',
+      resetPasswordObj
+    );
   }
 
   setCurrentUser(user: IUser) {

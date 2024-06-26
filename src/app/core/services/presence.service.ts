@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  HubConnectionState,
+} from '@microsoft/signalr';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject } from 'rxjs';
 import { IUser } from 'src/app/models/auth';
-import { environment } from 'src/assets/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +27,10 @@ export class PresenceService {
 
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(`${this.hubUrl}presence`, {
-        accessTokenFactory: () => user.token
-      }).withAutomaticReconnect().build();
+        accessTokenFactory: () => user.token,
+      })
+      .withAutomaticReconnect()
+      .build();
 
     this.hubConnection
       .start()
@@ -46,15 +52,17 @@ export class PresenceService {
       if (error) {
         this.logError('Connection closed with error', error);
         console.log(error);
-
       }
     });
   }
 
   stopHubConnection(): void {
-    if (this.hubConnection &&
-      this.hubConnection.state === HubConnectionState.Connected) {
-      this.hubConnection.stop()
+    if (
+      this.hubConnection &&
+      this.hubConnection.state === HubConnectionState.Connected
+    ) {
+      this.hubConnection
+        .stop()
         .catch((error) => this.logError('Error stopping connection', error))
         .finally(() => {
           this.hubConnection = null;

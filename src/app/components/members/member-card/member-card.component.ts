@@ -4,7 +4,7 @@ import { MembersService } from 'src/app/core/services/members.service';
 import { PresenceService } from 'src/app/core/services/presence.service';
 import { IBaseResponse } from 'src/app/models/baseCommonResponse';
 import { Member } from 'src/app/models/member';
-import { environment } from 'src/assets/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-member-card',
@@ -14,7 +14,7 @@ import { environment } from 'src/assets/environments/environment';
 export class MemberCardComponent {
   @Input() member!: Member;
   @Input() likedUserNames: string[] = [];
-  likeName: string= '';
+  likeName: string = '';
 
   baseServerUrl: string = environment.baseServerUrl;
 
@@ -22,7 +22,7 @@ export class MemberCardComponent {
     private _membersService: MembersService,
     private _toasterService: ToastrService,
     public _presenceService: PresenceService
-  ) {    }
+  ) {}
 
   addOrRemoveLike(userName: string) {
     this._membersService.addOrRemoveLike(userName).subscribe({
@@ -44,8 +44,4 @@ export class MemberCardComponent {
       },
     });
   }
-
-
-
-
 }
