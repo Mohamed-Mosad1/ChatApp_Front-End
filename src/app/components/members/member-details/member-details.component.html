@@ -44,7 +44,7 @@
         <h3>Interests</h3>
         <p>{{member.interests}}</p>
       </tab>
-      <tab heading="Photos">
+      <tab heading="Photos" (selectTab)="onTabActivated($event)">
         <div class="d-flex justify-content-center">
         <gallery [items]="galleryImages"></gallery>
         </div>

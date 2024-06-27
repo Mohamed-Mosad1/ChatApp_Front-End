@@ -31,6 +31,7 @@ export class AuthService {
       );
   }
 
+
   register(model: IUser) {
     return this._httpClient
       .post<IUser>(`${this.baseUrl}Accounts/Register`, model)

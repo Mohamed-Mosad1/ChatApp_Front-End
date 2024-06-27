@@ -71,20 +71,21 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
-
   confirmToSendEmail() {
     if (this.forgetPassword.invalid) {
       this._toastrService.error('Please enter your email correctly.');
     }
-    
+
     if (this.forgetPassword.valid) {
+      console.log(this.forgetPassword.get('email')?.value);
       this._authService
         .sendResetPasswordLink(this.forgetPassword.get('email')?.value)
         .subscribe({
           next: (res) => {
             this.modalRef?.hide();
             this._toastrService.success(`${res}`);
+            console.log(res);
+
           },
           error: (err) => {
             this.handleErrorResponse(err);

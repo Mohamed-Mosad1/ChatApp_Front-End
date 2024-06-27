@@ -22,12 +22,12 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'members', component: MemberListComponent },
   {
     path: '',
     runGuardsAndResolvers: 'always',
     canActivate: [authGuard],
     children: [
-      { path: 'members', component: MemberListComponent },
       {
         path: 'member/:userName',
         component: MemberDetailsComponent,

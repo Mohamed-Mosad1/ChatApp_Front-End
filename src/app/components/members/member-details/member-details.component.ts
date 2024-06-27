@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GalleryItem } from '@daelmaak/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { take } from 'rxjs';
@@ -30,13 +30,16 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
     private _activatedRoute: ActivatedRoute,
     private _messagesService: MessageService,
     public _presenceService: PresenceService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _router: Router
   ) {
     _authService.currentUser$.pipe(take(1)).subscribe((user) => {
       if (user) {
         this.user = user;
       }
     });
+
+    this._router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {
@@ -51,8 +54,8 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
     });
     this._activatedRoute.queryParams.subscribe({
       next: (params) => {
-        params['tab'] ? this.selectTab(params['tab']) : this.selectTab(0);
-      },
+        const tabIndex = params['tab'] ? +params['tab'] : 0;
+        this.selectTab(tabIndex);      },
       error: (err) => {
         console.log(err);
       },
@@ -71,6 +74,9 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
 
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
+
+    const tabId = this.memberTabs.tabs.findIndex(tab => tab.heading === this.activeTab.heading);
+    this.updateQueryParams(tabId);
     if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
       this._messagesService.createHubConnection(
         this.user,
@@ -83,6 +89,15 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
 
   selectTab(tabId: number) {
     this.memberTabs.tabs[tabId].active = true;
+    this.updateQueryParams(tabId);
+  }
+
+  updateQueryParams(tabId: number) {
+    this._router.navigate([], {
+      relativeTo: this._activatedRoute,
+      queryParams: { tab: tabId },
+      queryParamsHandling: 'merge'
+    });
   }
 
   ngOnDestroy(): void {

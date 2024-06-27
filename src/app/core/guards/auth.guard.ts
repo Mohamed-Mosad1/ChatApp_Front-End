@@ -1,18 +1,23 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../services/auth.service';
+import { map } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const toastr = inject(ToastrService);
+  const authService = inject(AuthService);
   const router = inject(Router);
+  const toastr = inject(ToastrService);
 
-  const user = localStorage.getItem('user');
-  if (user) {
-    return true;
-  }else{
-    router.navigate(['/home']);
-    toastr.error('You need to login first');
-  }
+  return authService.currentUser$.pipe(
+    map((user) => {
+      if (user) {
+        return true;
+      }
+        router.navigate(['/login']);
+        toastr.error('You need to login first');
+        return false;
+    })
+  )
 
-  return false;
 };

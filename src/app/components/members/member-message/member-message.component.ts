@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { IMessage } from 'src/app/models/messages';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { Subscription, take } from 'rxjs';
+import { take } from 'rxjs';
 import { IUser } from 'src/app/models/auth';
 
 @Component({
@@ -20,7 +20,6 @@ export class MemberMessageComponent implements OnInit, OnDestroy {
   messageContent: string = '';
   currentUserName: string = '';
   user!: IUser;
-  private messageSubscription!: Subscription
 
   constructor(
     public _messageService: MessageService,
@@ -42,7 +41,7 @@ export class MemberMessageComponent implements OnInit, OnDestroy {
   }
 
   getMessage(){
-    this.messageSubscription = this._messageService.messageRead$.subscribe({
+ this._messageService.messageRead$.subscribe({
       next: (messages) => {
         this.messages = messages
       },
@@ -61,7 +60,6 @@ export class MemberMessageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._messageService.stopHubConnection();
-    this.messageSubscription.unsubscribe();
   }
 
 

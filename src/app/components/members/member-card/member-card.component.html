@@ -27,9 +27,10 @@
       </li>
     </ul>
     <h5 class="card-title text-center mb-2" [class.h6]="member.userName.length > 5">
-      <span [class.is-online]="(_presenceService.onlineUsers$ | async)?.includes(member.userName)">
-        <i *ngIf="(_presenceService.onlineUsers$ | async)?.includes(member.userName)" class="fa fa-circle-dot me-1"></i>
+      <span class="is-online" [class.d-none]="!(_presenceService.onlineUsers$ | async)?.includes(member.userName)">
+        <i class="fa fa-circle-dot me-1"></i>
       </span>
+      <i class="fas fa-user me-1"></i>
       {{member.userName | titlecase}} - {{member.age}}
     </h5>
     <p class="card-text text-muted text-center">{{member.city}}</p>

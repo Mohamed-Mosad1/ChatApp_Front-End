@@ -6,6 +6,7 @@ import { IMessage } from 'src/app/models/messages';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { IUser } from 'src/app/models/auth';
 import { BehaviorSubject, take } from 'rxjs';
+import { IGroup } from 'src/app/models/group';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +41,22 @@ export class MessageService {
         },
       });
     });
+
+    this.hubConnection.on('UpdatedGroup', (group: IGroup) => {
+     if(group.connections.some((x:any) => x.userName === otherUserName)) {
+        this.messageRead$.pipe(take(1)).subscribe({
+          next: (messages) => {
+            messages.forEach((message: any) => {
+              if(!message.dateRead) {
+                message.dateRead = new Date(Date.now())
+              }
+            })
+            this.messageReadSource.next([...messages]);
+          },
+        });
+     }
+    });
+
   }
 
   stopHubConnection() {
