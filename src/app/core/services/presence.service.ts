@@ -61,7 +61,7 @@ export class PresenceService {
 
     this.hubConnection.on('NewMessageReceived', ({userName, knownAs, content}) => {
       if (userName !== user.userName) {
-        this._toastrService.info(content, `New message from ${knownAs}`)
+        this._toastrService.show(content, `New message from ${knownAs}`)
         .onTap.pipe(take(1)).subscribe(() => this._router.navigateByUrl('/member/' + userName + '?tab=3'));
       }
     })

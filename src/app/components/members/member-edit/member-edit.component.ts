@@ -7,11 +7,16 @@ import { MembersService } from 'src/app/core/services/members.service';
 import { IUser } from 'src/app/models/auth';
 import { Member } from 'src/app/models/member';
 import { environment } from 'src/environments/environment';
+import { PhotoEditorComponent } from '../photo-editor/photo-editor.component';
+import { DatePipe, NgIf } from '@angular/common';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-member-edit',
   templateUrl: './member-edit.component.html',
   styleUrls: ['./member-edit.component.scss'],
+  standalone: true,
+  imports: [PhotoEditorComponent, NgIf, TimeagoModule, DatePipe],
 })
 export class MemberEditComponent implements OnInit {
   user!: IUser;

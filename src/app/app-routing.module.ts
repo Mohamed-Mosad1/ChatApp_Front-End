@@ -1,54 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { MemberListComponent } from './components/members/member-list/member-list.component';
-import { MemberDetailsComponent } from './components/members/member-details/member-details.component';
-import { MessagesComponent } from './components/messages/messages.component';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { ListsComponent } from './components/lists/lists.component';
 import { authGuard } from './core/guards/auth.guard';
-import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { preventUnsavedChangesGuard } from './core/guards/prevent-unsaved-changes.guard';
 import { MemberDetailsResolver } from './_resolvers/member-details-resolver';
-import { AdminPanelComponent } from './Admin/admin-panel/admin-panel.component';
 import { adminGuard } from './core/guards/admin.guard';
-import { LoginComponent } from './components/auth/login/login.component';
-import { RegisterComponent } from './components/auth/register/register.component';
-import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'members', component: MemberListComponent },
-  {
-    path: '',
-    runGuardsAndResolvers: 'always',
-    canActivate: [authGuard],
-    children: [
-      {
-        path: 'member/:userName',
-        component: MemberDetailsComponent,
-        resolve: { member: MemberDetailsResolver },
-      },
-      {
-        path: 'members/edit',
-        component: MemberEditComponent,
-        canDeactivate: [preventUnsavedChangesGuard],
-      },
-      { path: 'lists', component: ListsComponent },
-      { path: 'message', component: MessagesComponent },
-      {
-        path: 'admin',
-        component: AdminPanelComponent,
-        canActivate: [adminGuard],
-      },
-    ],
-  },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'home', loadComponent: () => import('./components/home/home.component').then((m) => m.HomeComponent), },
+  { path: 'login', loadComponent: () => import('./components/auth/login/login.component').then( (m) => m.LoginComponent ), },
+  { path: 'register', loadComponent: () => import('./components/auth/register/register.component').then( (m) => m.RegisterComponent ), },
+  { path: 'reset-password', loadComponent: () => import('./components/auth/reset-password/reset-password.component').then( (m) => m.ResetPasswordComponent ), },
+  { path: '', runGuardsAndResolvers: 'always', canActivate: [authGuard], children: [
+    { path: 'members', loadComponent: () => import('./components/members/member-list/member-list.component').then( (m) => m.MemberListComponent ), },
+    { path: 'member/:userName', loadComponent: () => import( './components/members/member-details/member-details.component' ).then((m) => m.MemberDetailsComponent), resolve: { member: MemberDetailsResolver }, },
+    { path: 'members/edit', loadComponent: () => import('./components/members/member-edit/member-edit.component').then( (m) => m.MemberEditComponent ), canDeactivate: [preventUnsavedChangesGuard], },
+    { path: 'lists', loadComponent: () => import('./components/lists/lists.component').then( (m) => m.ListsComponent ), },
+    { path: 'message', loadComponent: () => import('./components/messages/messages.component').then( (m) => m.MessagesComponent ), },
+    { path: 'admin', loadComponent: () => import('./Admin/admin-panel/admin-panel.component').then( (m) => m.AdminPanelComponent ), canActivate: [adminGuard], },
+  ],
+},
 
-  { path: '**', component: NotFoundComponent },
+{ path: '**', loadComponent: () => import('./components/not-found/not-found.component').then( (m) => m.NotFoundComponent ) },
 ];
 
 @NgModule({

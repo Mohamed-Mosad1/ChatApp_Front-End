@@ -1,4 +1,4 @@
-import { map } from 'rxjs';
+import { CommonModule, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { RolesModalsComponent } from 'src/app/_modals/roles-modals/roles-modals.component';
@@ -9,6 +9,8 @@ import { IUser } from 'src/app/models/auth';
   selector: 'app-admin-management',
   templateUrl: './admin-management.component.html',
   styleUrls: ['./admin-management.component.scss'],
+  standalone: true,
+  imports: [CommonModule, NgFor],
 })
 export class AdminManagementComponent implements OnInit {
   users: Partial<IUser[]> = [];

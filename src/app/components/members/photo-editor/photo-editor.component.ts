@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
@@ -11,6 +12,8 @@ import { environment } from 'src/environments/environment';
   selector: 'app-photo-editor',
   templateUrl: './photo-editor.component.html',
   styleUrls: ['./photo-editor.component.scss'],
+  standalone: true,
+  imports: [NgFor, NgIf]
 })
 export class PhotoEditorComponent implements OnInit {
   @Input() member!: Member;

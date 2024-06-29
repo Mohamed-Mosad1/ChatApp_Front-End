@@ -1,8 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ToastrService } from 'ngx-toastr';
+import { TextInputComponent } from 'src/app/_forms/text-input/text-input.component';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { IResetPassword } from 'src/app/models/auth';
 import { matchValues } from 'src/app/models/password.validator';
@@ -11,12 +20,19 @@ import { matchValues } from 'src/app/models/password.validator';
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ButtonsModule,
+    TextInputComponent,
+    ReactiveFormsModule
+  ],
 })
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm!: FormGroup;
   emailToReset: string = '';
   emailToken: string = '';
-  resetPasswordObj!: IResetPassword
+  resetPasswordObj!: IResetPassword;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -38,7 +54,6 @@ export class ResetPasswordComponent implements OnInit {
         this._router.navigate(['/login']);
       }
     });
-
   }
 
   initializeForm() {
@@ -59,7 +74,6 @@ export class ResetPasswordComponent implements OnInit {
       this.resetPasswordForm.get('confirmPassword')?.updateValueAndValidity();
     });
   }
-
 
   OnSubmitResetForm() {
     if (this.resetPasswordForm.invalid) {

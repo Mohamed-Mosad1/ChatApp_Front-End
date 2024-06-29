@@ -3,11 +3,26 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'src/app/core/services/message.service';
 import { IMessage } from 'src/app/models/messages';
 import { Pagination } from 'src/app/models/Pagination';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TimeagoModule } from 'ngx-timeago';
+import { RouterLink } from '@angular/router';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    ButtonsModule,
+    PaginationModule,
+    TimeagoModule
+  ]
 })
 export class MessagesComponent implements OnInit {
   messages!: IMessage[] | null;

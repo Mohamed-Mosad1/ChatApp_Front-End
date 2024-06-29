@@ -5,7 +5,14 @@ $text-color-dark: #000;
 $text-color-light: #fff;
 
 // Mixin for button styles
-@mixin btn-custom($bg-color, $border-color, $text-color, $hover-bg-color, $hover-border-color, $hover-text-color) {
+@mixin btn-custom(
+  $bg-color,
+  $border-color,
+  $text-color,
+  $hover-bg-color,
+  $hover-border-color,
+  $hover-text-color
+) {
   background-color: $bg-color;
   border-color: $border-color;
   color: $text-color;
@@ -31,7 +38,14 @@ $text-color-light: #fff;
   justify-content: space-evenly;
 
   .btn {
-    @include btn-custom($primary-color, $primary-color, $text-color-dark, $primary-color-hover, $primary-color-hover, $text-color-light);
+    @include btn-custom(
+      $primary-color,
+      $primary-color,
+      $text-color-dark,
+      $primary-color-hover,
+      $primary-color-hover,
+      $text-color-light
+    );
   }
 
   .btn-active {
@@ -82,4 +96,11 @@ $text-color-light: #fff;
 
 .pagination {
   margin-top: 20px;
+}
+
+@media (max-width: 576px) {
+  .col-sm-6 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
 }

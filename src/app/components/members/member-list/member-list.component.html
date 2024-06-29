@@ -1,72 +1,67 @@
-  <div class="row">
-    <div class="col-md-4">
-      <div class="text-center mt-3">
-        <h5>Your Matches - <span class="text-danger fw-bold">{{Pagination?.totalItems}}</span> found</h5>
-        <hr class="w-75 m-auto" />
-      </div>
-      <div class="container mt-3">
-        <form #form="ngForm" class="form-inline" (ngSubmit)="getMembers()" autocomplete="off">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="mb-3">
-                <label for="minAge" class="form-label">Age From:</label>
-                <input type="number" [(ngModel)]="userParams.minAge" name="minAge" id="minAge" class="form-control">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="mb-3">
-                <label for="maxAge" class="form-label">Age To:</label>
-                <input type="number" [(ngModel)]="userParams.maxAge" name="maxAge" id="maxAge" class="form-control">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="gender" class="form-label">Shows:</label>
-                <select name="gender" [(ngModel)]="userParams.gender" id="gender" class="form-select">
-                  <option value="">All</option>
-                  <option *ngFor="let item of genderList" [value]="item.key">{{item.value}}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="row text-center">
-            <div class="col-6">
-              <button type="submit" class="btn btn-block btn-outline-warning">
-                <i class="fas fa-magnifying-glass mx-2"></i>
-                Filter
-              </button>
-            </div>
-            <div class="col-6">
-              <button type="button" class="btn btn-block btn-outline-info" (click)="resetFilters()">
-                <i class="fas fa-rotate mx-2"></i>
-                Reset
-              </button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col text-center my-5">
-              <button type="button" class="btn btn-warning me-3" name="orderBy" (click)="getMembers()"
-                btnRadio="lastActive" [(ngModel)]="userParams.orderBy">Last Active</button>
-              <button type="button" class="btn btn-secondary" name="orderBy" (click)="getMembers()" btnRadio="created"
-                [(ngModel)]="userParams.orderBy">New Members</button>
-            </div>
-          </div>
-        </form>
-      </div>
+    <div class="text-center mt-3">
+      <h5>Your Matches - <span class="text-danger fw-bold">{{Pagination?.totalItems}}</span> found</h5>
+      <hr class="w-75 m-auto" />
     </div>
-    <div class="col-md-8">
-      <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-3 changed-card" *ngFor="let item of members">
-          <app-member-card [likedUserNames]="likeUserNames" [member]="item"></app-member-card>
+    <div class="container-fluid mt-3" *ngIf="userParams">
+      <form #form="ngForm" (ngSubmit)="getMembers()" autocomplete="off">
+        <div class="row justify-content-center">
+          <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
+            <mat-form-field class="w-100">
+              <mat-label>Age from</mat-label>
+              <input matInput type="number" id="minAge" name="minAge" [(ngModel)]="userParams.minAge">
+            </mat-form-field>
+          </div>
+          <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
+            <mat-form-field class="w-100">
+              <mat-label>Age to</mat-label>
+              <input matInput type="number" id="maxAge" name="maxAge" [(ngModel)]="userParams.maxAge">
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-sm-4 col-md-6 col-lg-3 mb-2">
+            <mat-form-field class="w-100">
+              <mat-label>Gender</mat-label>
+              <mat-select name="gender" id="mat-mdc-form-field-label-4"  [(ngModel)]="userParams.gender">
+                <mat-option value="">All</mat-option>
+                <mat-option *ngFor="let item of genderList" [value]="item.key">{{item.value}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
-      </div>
-      <div class="d-flex justify-content-center" *ngIf="Pagination?.totalItems > 7">
-        <pagination [boundaryLinks]="true" [totalItems]="Pagination.totalItems" [itemsPerPage]="Pagination.itemsPerPage"
-          [(ngModel)]="Pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
-          nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
-        </pagination>
-      </div>
+        <div class="row justify-content-center my-3">
+          <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
+            <button mat-raised-button  type="submit" class="bg-warning w-100">
+              <mat-icon>search</mat-icon>
+              Filter
+            </button>
+          </div>
+          <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
+            <button mat-raised-button type="button" class="w-100" (click)="resetFilters()">
+              <mat-icon>refresh</mat-icon>
+              Reset
+            </button>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6 col-lg-4 mb-2">
+            <mat-button-toggle-group [(ngModel)]="userParams.orderBy"  name="orderBy" class="mb-3">
+              <mat-button-toggle value="lastActive" btnRadio="lastActive" (click)="getMembers()">Last Active</mat-button-toggle>
+              <mat-button-toggle value="created" btnRadio="created" (click)="getMembers()">New Members</mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+  <div class="row">
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-3 changed-card" *ngFor="let item of members">
+      <app-member-card [likedUserNames]="likeUserNames" [member]="item"></app-member-card>
     </div>
   </div>
+  <div class="d-flex justify-content-center" *ngIf="Pagination?.totalItems > 7">
+    <pagination [boundaryLinks]="true" [totalItems]="Pagination.totalItems" [itemsPerPage]="Pagination.itemsPerPage"
+      [(ngModel)]="Pagination.currentPage" (pageChanged)="pageChanged($event)" [maxSize]="3" previousText="&lsaquo;"
+      nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+    </pagination>
+  </div>
+

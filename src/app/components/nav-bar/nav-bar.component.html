@@ -18,7 +18,7 @@
       <button mat-button [matMenuTriggerFor]="userMenu">
         <img [src]="user.photoUrl === baseServerUrl || user.photoUrl === null ? './assets/images/default-user-img.png' : user.photoUrl"
           class="object-fit-cover rounded-circle img-profile" [alt]="user.userName">
-        <span class="ms-2 bg-light fw-bold rounded-pill px-2">Welcome, {{ user.userName | titlecase }}</span>
+        <span id="welcome" class="ms-2 bg-light fw-bold rounded-pill px-2">Welcome, {{ user.userName | titlecase }}</span>
       </button>
       <mat-menu #userMenu="matMenu">
         <button mat-menu-item routerLink="/members/edit">

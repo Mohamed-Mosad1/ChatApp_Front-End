@@ -1,8 +1,8 @@
+import { CommonModule, NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService } from 'src/app/core/services/members.service';
 import { PresenceService } from 'src/app/core/services/presence.service';
-import { IBaseResponse } from 'src/app/models/baseCommonResponse';
 import { Member } from 'src/app/models/member';
 import { environment } from 'src/environments/environment';
 
@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
   selector: 'app-member-card',
   templateUrl: './member-card.component.html',
   styleUrls: ['./member-card.component.scss'],
+  standalone: true,
+  imports: [CommonModule, NgFor]
 })
 export class MemberCardComponent {
   @Input() member!: Member;

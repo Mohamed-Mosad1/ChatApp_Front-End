@@ -7,7 +7,8 @@
       <h5>Send your first message!</h5>
     </div>
 
-    <ul *ngIf="messages?.length" class="list-unstyled chat">
+    <ul style="overflow-y: auto; max-height: 500px;"
+    *ngIf="messages?.length" class="list-unstyled chat">
       <li *ngFor="let message of messages">
         <div class="d-flex justify-contnt-between align-items-center p-2"
           [ngClass]="{'flex-row-reverse': message.senderUserName === currentUserName, 'flex-row bg-body-secondary rounded': message.senderUserName !== currentUserName}">
