@@ -1,5 +1,6 @@
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -13,7 +14,11 @@ import { environment } from 'src/environments/environment';
   templateUrl: './photo-editor.component.html',
   styleUrls: ['./photo-editor.component.scss'],
   standalone: true,
-  imports: [NgFor, NgIf]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule
+  ]
 })
 export class PhotoEditorComponent implements OnInit {
   @Input() member!: Member;

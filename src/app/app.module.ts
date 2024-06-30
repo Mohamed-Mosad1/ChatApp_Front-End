@@ -9,45 +9,50 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
-import { SharedModule } from './modules/shared.module';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { HasRoleDirective } from './_directive/has-role.directive';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { TimeagoModule } from 'ngx-timeago';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // MemberListComponent,
-    // MemberDetailsComponent,
-    // ListsComponent,
-    // MessagesComponent,
-    // NotFoundComponent,
-    // MemberCardComponent,
-    // MemberEditComponent,
-    // PhotoEditorComponent,
-    // TextInputComponent,
-    // MemberMessageComponent,
-    // AdminPanelComponent,
-    NavBarComponent,
-    // AdminManagementComponent,
-    // RolesModalsComponent,
-    // ResetPasswordComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule,
     FormsModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
     HasRoleDirective,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatMenuModule,
+    ButtonsModule,
+    ModalModule.forRoot(),
+    TimeagoModule.forRoot(),
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
-    SharedModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent],
 })

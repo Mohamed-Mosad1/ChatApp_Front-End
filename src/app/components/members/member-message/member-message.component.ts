@@ -15,7 +15,7 @@ import { TimeagoModule } from 'ngx-timeago';
   templateUrl: './member-message.component.html',
   styleUrls: ['./member-message.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, TimeagoModule,MatToolbarModule],
+  imports: [CommonModule, FormsModule, TimeagoModule, MatToolbarModule]
 })
 export class MemberMessageComponent implements OnInit, OnDestroy {
   @ViewChild('messageForm') messageForm!: NgForm;
@@ -28,7 +28,7 @@ export class MemberMessageComponent implements OnInit, OnDestroy {
   constructor(
     public _messageService: MessageService,
     public _authService: AuthService,
-    private _toastrService: ToastrService,
+    private _toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +43,6 @@ export class MemberMessageComponent implements OnInit, OnDestroy {
     });
   }
 
-
   getMessage() {
     this._messageService.messageRead$.subscribe({
       next: (messages) => {
@@ -57,9 +56,11 @@ export class MemberMessageComponent implements OnInit, OnDestroy {
       this._toastrService.warning('Please enter a message');
       return;
     }
-    this._messageService.sendMessage(this.userName, this.messageContent).then(() => {
-      this.messageForm.reset();
-    });
+    this._messageService
+      .sendMessage(this.userName, this.messageContent)
+      .then(() => {
+        this.messageForm.reset();
+      });
   }
 
   ngOnDestroy(): void {

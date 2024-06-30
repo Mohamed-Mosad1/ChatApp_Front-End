@@ -8,7 +8,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ToastrService } from 'ngx-toastr';
 import { TextInputComponent } from 'src/app/_forms/text-input/text-input.component';
@@ -23,10 +24,10 @@ import { matchValues } from 'src/app/models/password.validator';
   standalone: true,
   imports: [
     CommonModule,
-    ButtonsModule,
-    TextInputComponent,
-    ReactiveFormsModule
-  ],
+    RouterLink,
+    ReactiveFormsModule,
+    TextInputComponent
+  ]
 })
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm!: FormGroup;
@@ -70,7 +71,7 @@ export class ResetPasswordComponent implements OnInit {
       confirmPassword: ['', [Validators.required, matchValues('newPassword')]],
     });
 
-    this.resetPasswordForm.get('password')?.valueChanges.subscribe(() => {
+    this.resetPasswordForm.get('newPassword')?.valueChanges.subscribe(() => {
       this.resetPasswordForm.get('confirmPassword')?.updateValueAndValidity();
     });
   }

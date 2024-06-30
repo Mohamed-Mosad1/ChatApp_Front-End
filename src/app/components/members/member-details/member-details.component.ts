@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { GalleryComponent, GalleryItem } from '@daelmaak/ngx-gallery';
 import { TabDirective, TabsModule, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { take } from 'rxjs';
@@ -13,6 +13,7 @@ import { IMessage } from 'src/app/models/messages';
 import { environment } from 'src/environments/environment';
 import { MemberMessageComponent } from '../member-message/member-message.component';
 import { TimeagoModule } from 'ngx-timeago';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-member-details',
@@ -24,8 +25,10 @@ import { TimeagoModule } from 'ngx-timeago';
     TabsModule,
     TimeagoModule,
     GalleryComponent,
+    FormsModule,
+    ReactiveFormsModule,
     MemberMessageComponent,
-  ],
+  ]
 })
 export class MemberDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('memberTabs', { static: true }) memberTabs!: TabsetComponent;
@@ -42,7 +45,6 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
     private _messagesService: MessageService,
     public _presenceService: PresenceService,
     private _authService: AuthService,
-    private _router: Router
   ) {
     _authService.currentUser$.pipe(take(1)).subscribe((user) => {
       if (user) {
@@ -50,7 +52,6 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this._router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {
@@ -87,10 +88,6 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
 
-    const tabId = this.memberTabs.tabs.findIndex(
-      (tab) => tab.heading === this.activeTab.heading
-    );
-    this.updateQueryParams(tabId);
     if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
       this._messagesService.createHubConnection(
         this.user,
@@ -103,15 +100,6 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
 
   selectTab(tabId: number) {
     this.memberTabs.tabs[tabId].active = true;
-    this.updateQueryParams(tabId);
-  }
-
-  updateQueryParams(tabId: number) {
-    this._router.navigate([], {
-      relativeTo: this._activatedRoute,
-      queryParams: { tab: tabId },
-      queryParamsHandling: 'merge',
-    });
   }
 
   ngOnDestroy(): void {

@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'login', loadComponent: () => import('./components/auth/login/login.component').then( (m) => m.LoginComponent ), },
   { path: 'register', loadComponent: () => import('./components/auth/register/register.component').then( (m) => m.RegisterComponent ), },
   { path: 'reset-password', loadComponent: () => import('./components/auth/reset-password/reset-password.component').then( (m) => m.ResetPasswordComponent ), },
+  
   { path: '', runGuardsAndResolvers: 'always', canActivate: [authGuard], children: [
     { path: 'members', loadComponent: () => import('./components/members/member-list/member-list.component').then( (m) => m.MemberListComponent ), },
     { path: 'member/:userName', loadComponent: () => import( './components/members/member-details/member-details.component' ).then((m) => m.MemberDetailsComponent), resolve: { member: MemberDetailsResolver }, },

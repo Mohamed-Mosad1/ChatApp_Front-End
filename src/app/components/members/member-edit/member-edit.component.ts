@@ -1,5 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -8,15 +14,24 @@ import { IUser } from 'src/app/models/auth';
 import { Member } from 'src/app/models/member';
 import { environment } from 'src/environments/environment';
 import { PhotoEditorComponent } from '../photo-editor/photo-editor.component';
-import { DatePipe, NgIf } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { TimeagoModule } from 'ngx-timeago';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-member-edit',
   templateUrl: './member-edit.component.html',
   styleUrls: ['./member-edit.component.scss'],
   standalone: true,
-  imports: [PhotoEditorComponent, NgIf, TimeagoModule, DatePipe],
+  imports: [
+    CommonModule,
+    PhotoEditorComponent,
+    TimeagoModule,
+    TabsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DatePipe
+  ]
 })
 export class MemberEditComponent implements OnInit {
   user!: IUser;

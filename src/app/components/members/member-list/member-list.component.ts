@@ -3,9 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Member } from 'src/app/models/member';
 import { MembersService } from 'src/app/core/services/members.service';
 import { UserParams } from 'src/app/models/UserParams';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { MemberCardComponent } from '../member-card/member-card.component';
@@ -24,8 +23,6 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink,
-    RouterLinkActive,
     PaginationModule,
     ButtonsModule,
     MemberCardComponent,
@@ -66,7 +63,7 @@ export class MemberListComponent implements OnInit {
         this.getMembers();
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       },
     });
   }
@@ -79,7 +76,7 @@ export class MemberListComponent implements OnInit {
         this.Pagination = res.pagination;
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       },
     });
   }
@@ -92,7 +89,7 @@ export class MemberListComponent implements OnInit {
         this.Pagination = res.pagination;
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       }
     });
   }
