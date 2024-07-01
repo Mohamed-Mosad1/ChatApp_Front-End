@@ -6,40 +6,47 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { AuthService } from '../core/services/auth.service';
-import { take } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { IUser } from '../models/auth';
 
 @Directive({
-  selector: '[appHasRole]' /*appHasRole["Admin", "Member"]*/,
+  selector: '[appHasRole]' /* appHasRole["Admin", "Moderator"] */,
   standalone: true,
 })
 export class HasRoleDirective implements OnInit {
   @Input() appHasRole!: string[];
-  user!: IUser;
+  private user!: IUser | null;
+
   constructor(
-    private _viewContainerRef: ViewContainerRef,
-    private _templateRef: TemplateRef<any>,
-    private _authService: AuthService
-  ) {
-    this._authService.currentUser$.pipe(take(1)).subscribe({
+    private viewContainerRef: ViewContainerRef,
+    private templateRef: TemplateRef<any>,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.authService.currentUser$.pipe(take(1)).subscribe({
       next: (user) => {
-        if (user) {
-          this.user = user;
-        }
+        this.user = user;
+        this.updateView();
       },
+      error: (err) => {
+        console.error('Error fetching user roles:', err);
+        this.viewContainerRef.remove();
+      }
     });
   }
 
-  ngOnInit(): void {
-    if (!this.user?.roles || this.user?.roles === null) {
-      this._viewContainerRef.clear();
+  private updateView(): void {
+    this.viewContainerRef.remove(); // Clear the view container initially
+
+    if (!this.user?.roles) {
       return;
     }
 
-    if (this.user?.roles.some((x) => this.appHasRole.includes(x))) {
-      this._viewContainerRef.createEmbeddedView(this._templateRef);
-    } else {
-      this._viewContainerRef.clear();
+    const hasRole = this.user.roles.some((role) => this.appHasRole.includes(role));
+
+    if (hasRole) {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
   }
 }

@@ -8,19 +8,19 @@
           <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
             <mat-form-field class="w-100">
               <mat-label>Age from</mat-label>
-              <input matInput type="number" id="minAge" name="minAge" [(ngModel)]="userParams.minAge">
+              <input matInput id="minAge" name="minAge" [(ngModel)]="userParams.minAge">
             </mat-form-field>
           </div>
           <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
             <mat-form-field class="w-100">
               <mat-label>Age to</mat-label>
-              <input matInput type="number" id="maxAge" name="maxAge" [(ngModel)]="userParams.maxAge">
+              <input matInput id="maxAge" name="maxAge" [(ngModel)]="userParams.maxAge">
             </mat-form-field>
           </div>
           <div class="col-12 col-sm-4 col-md-6 col-lg-3 mb-2">
             <mat-form-field class="w-100">
-              <mat-label>Gender</mat-label>
-              <mat-select name="gender" id="mat-mdc-form-field-label-4"  [(ngModel)]="userParams.gender">
+              <mat-label for="gender">Gender</mat-label>
+              <mat-select name="gender" id="gender" [(ngModel)]="userParams.gender">
                 <mat-option value="">All</mat-option>
                 <mat-option *ngFor="let item of genderList" [value]="item.key">{{item.value}}</mat-option>
               </mat-select>
@@ -35,7 +35,7 @@
             </button>
           </div>
           <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2">
-            <button mat-raised-button type="button" class="w-100" (click)="resetFilters()">
+            <button mat-raised-button [disabled]="userParams.minAge === 18 && userParams.maxAge === 80 && userParams.gender === ''" type="button" class="w-100" (click)="resetFilters()">
               <mat-icon>refresh</mat-icon>
               Reset
             </button>
@@ -44,8 +44,8 @@
         <div class="row justify-content-center">
           <div class="col-12 col-md-6 col-lg-4 mb-2">
             <mat-button-toggle-group [(ngModel)]="userParams.orderBy"  name="orderBy" class="mb-3">
-              <mat-button-toggle value="lastActive" btnRadio="lastActive" (click)="getMembers()">Last Active</mat-button-toggle>
-              <mat-button-toggle value="created" btnRadio="created" (click)="getMembers()">New Members</mat-button-toggle>
+              <mat-button-toggle value="lastActive" [disabled]="userParams.orderBy === 'lastActive'" btnRadio="lastActive" (click)="getMembers()">Last Active</mat-button-toggle>
+              <mat-button-toggle value="created" [disabled]="userParams.orderBy === 'created'" btnRadio="created" (click)="getMembers()">New Members</mat-button-toggle>
             </mat-button-toggle-group>
           </div>
         </div>

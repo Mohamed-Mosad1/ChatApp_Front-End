@@ -35,6 +35,10 @@ $client-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
@@ -51,12 +55,6 @@ $client-theme: mat.define-light-theme((
     border-bottom: 4px solid #fbf8cd;
   }
 
-  .member-tabset > .nav-tabs > li.open > a, .member-tabset > .nav-tabs > li:hover > a {
-    border: 0;
-    background: none !important;
-    color: #333333;
-  }
-
   .member-tabset > .nav-tabs > li.open > a > i, .member-tabset > .nav-tabs > li:hover > a > i {
     color: #a6a6a6;
   }
@@ -68,11 +66,6 @@ $client-theme: mat.define-light-theme((
   .member-tabset > .nav-tabs > li.active {
     border-bottom: 4px solid #e9df20;
     position: relative;
-  }
-
-  .member-tabset > .nav-tabs > li.active > a {
-    border: 0 !important;
-    color: #333333;
   }
 
   .member-tabset > .nav-tabs > li.active > a > i {

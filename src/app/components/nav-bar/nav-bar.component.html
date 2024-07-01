@@ -1,4 +1,4 @@
-<header class="position-relative">
+<header class="position-">
   <mat-toolbar class="bg-dark justify-content-between align-items-center px-1">
     <div class="d-flex">
       <button mat-icon-button class="d-small me-2 text-white" *ngIf="(_authService.currentUser$ | async)" (click)="drawer.toggle()">
@@ -42,15 +42,23 @@
 <mat-drawer-container class="bg-white" autosize>
   <mat-drawer #drawer mode="over" class="sidenav bg-dark-subtle fw-bold">
     <mat-nav-list>
-      <mat-list-item><a routerLink="/members" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Members</a></mat-list-item>
-      <mat-list-item><a routerLink="/lists" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Likes</a></mat-list-item>
-      <mat-list-item><a routerLink="/message" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Message</a></mat-list-item>
-      <mat-list-item><a *appHasRole="['Admin', 'Moderator']" routerLink="/admin" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Admin</a></mat-list-item>
+      <mat-list-item>
+        <a routerLink="/members" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Members</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a routerLink="/lists" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Likes</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a routerLink="/message" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Message</a>
+      </mat-list-item>
+      <mat-list-item *appHasRole="['Admin', 'Moderator']">
+        <a routerLink="/admin" routerLinkActive="text-black" class="nav-link px-2 text-secondary">Admin</a>
+      </mat-list-item>
     </mat-nav-list>
   </mat-drawer>
 
   <mat-drawer-content>
-    <section class="container-fluid p-4 my-4" style="min-height: 100%;">
+    <section class="container-fluid px-4 my-4" style="min-height: 100vh;">
       <router-outlet></router-outlet>
     </section>
   </mat-drawer-content>

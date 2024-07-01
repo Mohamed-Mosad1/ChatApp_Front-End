@@ -2,13 +2,13 @@
   <div class="row justify-content-center my-3">
     <div class="col-md-6 text-center">
       <div class="group" name="container">
-        <button class="btn btn-custom" [ngClass]="{'btn-active': container === 'UnRead'}" btnRadio="UnRead" [(ngModel)]="container" (click)="loadMessages()">
+        <button class="btn btn-custom" [ngClass]="{'btn-active': container === 'UnRead'}" btnRadio="UnRead" [disabled]="container === 'UnRead'" [(ngModel)]="container" (click)="loadMessages()">
           <i class="fa fa-envelope"></i> UnRead
         </button>
-        <button class="btn btn-custom" [ngClass]="{'btn-active': container === 'Inbox'}" btnRadio="Inbox" [(ngModel)]="container" (click)="loadMessages()">
+        <button class="btn btn-custom" [ngClass]="{'btn-active': container === 'Inbox'}" btnRadio="Inbox" [disabled]="container === 'Inbox'" [(ngModel)]="container" (click)="loadMessages()">
           <i class="fa fa-envelope-open"></i> Inbox
         </button>
-        <button class="btn btn-custom" [ngClass]="{'btn-active': container === 'Outbox'}" btnRadio="Outbox" [(ngModel)]="container" (click)="loadMessages()">
+        <button class="btn btn-custom" [ngClass]="{'btn-active': container === 'Outbox'}" btnRadio="Outbox" [disabled]="container === 'Outbox'" [(ngModel)]="container" (click)="loadMessages()">
           <i class="fa fa-paper-plane"></i> Outbox
         </button>
       </div>

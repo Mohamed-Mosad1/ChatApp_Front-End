@@ -47,16 +47,16 @@
         <tab heading="About {{member.userName}}" id="tab1">
           <form id="editForm" [formGroup]="editMemberForm" (ngSubmit)="updateMember()">
             <div class="mb-4">
-              <h3>Description</h3>
-              <textarea class="form-control no-resize" formControlName="introduction" rows="5">{{member.introduction}}</textarea>
+              <label class="form-label h3" for="introduction">Description</label>
+              <textarea id="introduction" class="form-control no-resize" formControlName="introduction" rows="5">{{member.introduction}}</textarea>
             </div>
             <div class="mb-4">
-              <h3>Looking For</h3>
-              <textarea class="form-control no-resize" formControlName="lookingFor" rows="5">{{member.lookingFor}}</textarea>
+              <label class="form-label h3" for="Looking">Looking For</label>
+              <textarea id="Looking" class="form-control no-resize" formControlName="lookingFor" rows="5">{{member.lookingFor}}</textarea>
             </div>
             <div class="mb-4">
-              <h3>Interests</h3>
-              <textarea class="form-control no-resize" formControlName="interests" rows="5">{{member.interests}}</textarea>
+              <label class="form-label h3" for="Interests">Interests</label>
+              <textarea id="Interests" class="form-control no-resize" formControlName="interests" rows="5">{{member.interests}}</textarea>
             </div>
             <div class="mb-4">
               <h3>Location Details</h3>

@@ -49,7 +49,6 @@ export class MemberListComponent implements OnInit {
   pageSize: number = 8;
   likeUserNames: string[] = [];
 
-
   constructor(private _membersService: MembersService) {
     this.userParams = _membersService.getUserParams();
   }

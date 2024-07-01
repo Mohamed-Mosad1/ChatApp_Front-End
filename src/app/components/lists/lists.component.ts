@@ -7,6 +7,8 @@ import { Pagination } from 'src/app/models/Pagination';
 import { Member } from 'src/app/models/member';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { MemberCardComponent } from '../members/member-card/member-card.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-lists',
@@ -18,6 +20,8 @@ import { MemberCardComponent } from '../members/member-card/member-card.componen
     FormsModule,
     RouterLink,
     ButtonsModule,
+    MatButtonModule,
+    MatButtonToggleModule,
     MemberCardComponent
   ]
 })

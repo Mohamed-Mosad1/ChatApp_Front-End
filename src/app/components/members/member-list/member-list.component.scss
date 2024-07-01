@@ -25,20 +25,23 @@
   }
 }
 
-@media (max-width: 413px) {
+@media (min-width: 400px) {
 
   .col-sm-6 {
     flex: 0 0 auto;
-    width: 100%;
+    width: 50%;
+}
 }
 
-@media (max-width: 240px) {
+@media (max-width: 399.9px) {
   mat-button-toggle-group{
     flex-wrap: wrap;
     border: none;
   }
-}
-
+  .col-sm-6 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
 }
 
 .form-inline .form-group {

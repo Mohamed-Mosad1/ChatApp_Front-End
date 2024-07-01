@@ -35,19 +35,20 @@
   <div class="col-md-8">
     <tabset class="member-tabset" #memberTabs>
       <tab [heading]="'About ' + member?.userName" (selectTab)="onTabActivated($event)">
-        <h3>Description</h3>
+        <h3 *ngIf="member.introduction">Description</h3>
         <p>{{member.introduction}}</p>
-        <h3>Looking For</h3>
+        <h3 *ngIf="member.lookingFor">Looking For</h3>
         <p>{{member.lookingFor}}</p>
       </tab>
       <tab heading="Interests" (selectTab)="onTabActivated($event)">
-        <h3>Interests</h3>
+        <h3 *ngIf="member.interests">Interests</h3>
         <p>{{member.interests}}</p>
       </tab>
       <tab heading="Photos" (selectTab)="onTabActivated($event)">
-        <div class="d-flex justify-content-center">
+        <div *ngIf="member.photos.length > 0" class="d-flex justify-content-center">
         <gallery [items]="galleryImages"></gallery>
         </div>
+        <h3 *ngIf="member.photos.length === 0">No Photos</h3>
       </tab>
       <tab heading="Messages" (selectTab)="onTabActivated($event)">
           <app-member-message [userName]="member.userName"></app-member-message>

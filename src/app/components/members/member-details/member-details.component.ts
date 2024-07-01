@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GalleryComponent, GalleryItem } from '@daelmaak/ngx-gallery';
 import { TabDirective, TabsModule, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { take } from 'rxjs';
@@ -23,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     TabsModule,
+    RouterLink,
     TimeagoModule,
     GalleryComponent,
     FormsModule,
@@ -65,9 +66,9 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
       },
     });
     this._activatedRoute.queryParams.subscribe({
-      next: (params) => {
-        const tabIndex = params['tab'] ? +params['tab'] : 0;
-        this.selectTab(tabIndex);
+      next: (res : any) => {
+        res.tab ? this.selectTab(res.tab):this.selectTab(0)
+
       },
       error: (err) => {
         console.log(err);

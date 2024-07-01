@@ -104,3 +104,9 @@ $text-color-light: #fff;
     width: 50%;
   }
 }
+@media (max-width: 440px) {
+  .col-sm-6 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}

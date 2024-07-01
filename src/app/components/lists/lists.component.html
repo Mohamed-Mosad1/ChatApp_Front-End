@@ -4,8 +4,8 @@
   </div>
   <div class="col-md-6 text-center mb-3">
     <div class="group" name="predicate">
-      <button class="btn btn-custom" [ngClass]="{'btn-active': predicate === 'liked'}" btnRadio="liked" [(ngModel)]="predicate" (click)="loadLikes()">Members I Like</button>
-      <button class="btn btn-custom" [ngClass]="{'btn-active': predicate === 'likedBy'}" btnRadio="likedBy" [(ngModel)]="predicate" (click)="loadLikes()">Members Who Like Me</button>
+      <button class="btn btn-custom" [disabled]="predicate === 'liked'" [ngClass]="{'btn-active': predicate === 'liked'}" btnRadio="liked" [(ngModel)]="predicate" (click)="loadLikes()">Members I Like</button>
+      <button class="btn btn-custom" [disabled]="predicate === 'likedBy'" [ngClass]="{'btn-active': predicate === 'likedBy'}" btnRadio="likedBy" [(ngModel)]="predicate" (click)="loadLikes()">Members Who Like Me</button>
     </div>
   </div>
 </div>

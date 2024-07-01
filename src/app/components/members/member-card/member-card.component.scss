@@ -26,7 +26,7 @@
 }
 
 .card-body{
-  height: 8rem;
+  height: max-content;
   overflow: hidden;
 }
 
@@ -44,3 +44,34 @@
   animation: fa-blink 1.5s linear infinite;
   color: rgb(1, 150, 1);
 }
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.mat-mini-fab {
+  margin: 0 5px;
+}
+
+@media (max-width: 300px) {
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-body .btn, .mat-mini-fab {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-body .btn, .mat-mini-fab {
+    font-size: 0.875rem;
+  }
+}
+

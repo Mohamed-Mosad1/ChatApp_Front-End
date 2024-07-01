@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +16,14 @@ import { environment } from 'src/environments/environment';
   templateUrl: './member-card.component.html',
   styleUrls: ['./member-card.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+  ],
 })
 export class MemberCardComponent {
   @Input() member!: Member;

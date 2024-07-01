@@ -1,38 +1,30 @@
-<div class="card overflow-hidden" *ngIf="member">
+<div class="card mb-3" *ngIf="member">
   <div class="card-image-wrapper">
     <img [routerLink]="['/member/', member.userName]" style="cursor: pointer;" [queryParams]="{tab: 3}"
-      class="card-img-top"
+      class="card-img-top img-fluid"
       [src]="member.photoUrl == baseServerUrl ? './assets/images/default-user-img.png' : member.photoUrl"
       [alt]="member.userName" />
-
   </div>
-  <div class="card-body">
-    <ul class="list-inline text-center mb-2">
-      <li class="list-inline-item">
-        <button [routerLink]="['/member/', member.userName]" type="button" class="btn btn-warning">
-          <i class="fas fa-user"></i>
-        </button>
-      </li>
-      <li class="list-inline-item">
-        <button type="button" [class.text-danger]="likedUserNames.includes(member.userName)"
-          (click)="addOrRemoveLike(member.userName)" class="btn btn-warning">
-          <i class="fas fa-heart"></i>
-        </button>
-      </li>
-      <li class="list-inline-item">
-        <button [routerLink]="'/member/' + member.userName" [queryParams]="{tab: 3}" type="button"
-          class="btn btn-warning">
-          <i class="fas fa-envelope"></i>
-        </button>
-      </li>
-    </ul>
-    <h5 class="card-title text-center mb-2" [class.h6]="member.userName.length > 5">
-      <span class="is-online" [class.d-none]="!(_presenceService.onlineUsers$ | async)?.includes(member.userName)">
+  <div class="card-body text-center">
+    <div class="d-flex justify-content-center mb-3">
+      <button mat-mini-fab color="primary" [routerLink]="['/member/', member.userName]" class="me-2">
+        <mat-icon>person</mat-icon>
+      </button>
+      <button mat-mini-fab color="basic" [class.text-danger]="likedUserNames.includes(member.userName)"
+        (click)="addOrRemoveLike(member.userName)" class="me-2">
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <button mat-mini-fab style="background-color: var(--bs-success);" [routerLink]="'/member/' + member.userName" [queryParams]="{tab: 3}">
+        <mat-icon>mail</mat-icon>
+      </button>
+    </div>
+    <h5 class="card-title text-center mb-2" [class.h6]="member?.userName.length > 5">
+      <span class="is-online" [class.d-none]="!(_presenceService.onlineUsers$ | async)?.includes(member?.userName)">
         <i class="fa fa-circle-dot me-1"></i>
       </span>
       <i class="fas fa-user me-1"></i>
-      {{member.userName | titlecase}} - {{member.age}}
+      {{ member.userName | titlecase }} - {{ member.age }}
     </h5>
-    <p class="card-text text-muted text-center">{{member.city}}</p>
+    <p class="card-text text-muted">{{ member.city }}</p>
   </div>
 </div>
